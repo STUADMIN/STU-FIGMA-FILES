@@ -3,6 +3,20 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  /* Brand color tokens (from STU DS — Global) */
+  --brand-navy: #0D2352;
+  --brand-tenders: #0AD6A1;
+  --brand-projects: #FECA01;
+  --brand-hns: #EF466F; /* Health & Safety */
+  --brand-equipment: #A873A8;
+  --brand-vehicles: #118AB2;
+  --brand-emissions: #FEAA73;
+  --brand-accounts: #1890FF;
+  --brand-hr: #F89BF6;
+  --brand-menu-active: #FECA00;
+  /* Layout tokens */
+  --space-card-pad: 28px; /* p-7 */
+  --radius-card: 8px;     /* rounded-lg */
 }
 
 @theme inline {
@@ -10,6 +24,20 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  /* Color tokens mapped for Tailwind utilities (text-*, border-*, bg-*) */
+  --color-brand-navy: var(--brand-navy);
+  --color-brand-tenders: var(--brand-tenders);
+  --color-brand-projects: var(--brand-projects);
+  --color-brand-hns: var(--brand-hns);
+  --color-brand-equipment: var(--brand-equipment);
+  --color-brand-vehicles: var(--brand-vehicles);
+  --color-brand-emissions: var(--brand-emissions);
+  --color-brand-accounts: var(--brand-accounts);
+  --color-brand-hr: var(--brand-hr);
+  --color-brand-menu-active: var(--brand-menu-active);
+  /* Space and radius tokens for utilities (p-*, rounded-*) */
+  --spacing-card: var(--space-card-pad);
+  --radius-card: var(--radius-card);
 }
 
 @media (prefers-color-scheme: dark) {
