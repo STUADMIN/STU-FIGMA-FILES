@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { StuIcon } from "../../components/icons/StuIcon";
+import { UserPill } from "../header/UserPill";
 import React from "react";
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
@@ -69,18 +70,11 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 										<path d="M21.5306 20.4694L16.8366 15.7762C18.1971 14.1428 18.8755 12.0478 18.7307 9.92694C18.5859 7.80607 17.629 5.82268 16.0591 4.38935C14.4892 2.95602 12.4272 2.18311 10.3019 2.23141C8.17666 2.27971 6.15184 3.1455 4.64867 4.64867C3.1455 6.15184 2.27971 8.17666 2.23141 10.3019C2.18311 12.4272 2.95602 14.4892 4.38935 16.0591C5.82268 17.629 7.80607 18.5859 9.92694 18.7307C12.0478 18.8755 14.1428 18.1971 15.7762 16.8366L20.4694 21.5306C20.5391 21.6003 20.6218 21.6556 20.7128 21.6933C20.8039 21.731 20.9015 21.7504 21 21.7504C21.0985 21.7504 21.1961 21.731 21.2872 21.6933C21.3782 21.6556 21.4609 21.6003 21.5306 21.5306C21.6003 21.4609 21.6556 21.3782 21.6933 21.2872C21.731 21.1961 21.7504 21.0985 21.7504 21C21.7504 20.9015 21.731 20.8039 21.6933 20.7128C21.6556 20.6218 21.6003 20.5391 21.5306 20.4694ZM3.75 10.5C3.75 9.16498 4.14588 7.85993 4.88758 6.7499C5.62928 5.63987 6.68349 4.7747 7.91689 4.26381C9.15029 3.75292 10.5075 3.61925 11.8169 3.8797C13.1262 4.14015 14.329 4.78302 15.273 5.72703C16.217 6.67103 16.8599 7.87377 17.1203 9.18314C17.3808 10.4925 17.2471 11.8497 16.7362 13.0831C16.2253 14.3165 15.3601 15.3707 14.2501 16.1124C13.1401 16.8541 11.835 17.25 10.5 17.25C8.7104 17.248 6.99466 16.5362 5.72922 15.2708C4.46378 14.0053 3.75199 12.2896 3.75 10.5Z" fill="black"/>
 									</svg>
 								</div>
-								<div className="flex h-12 w-[283px] flex-none items-center gap-6 rounded-[68px] order-1">
-									<StuIcon name="bell" size={20} className="text-brand-navy" aria-label="Notifications" />
-									<StuIcon name="person" size={24} className="text-brand-navy flex-none grow-0" aria-label="Profile" />
-									<StuIcon name="settings" size={20} className="text-brand-navy" aria-label="Settings" />
-									<div className="flex h-10 items-center gap-2 rounded-[30px] border border-[#D0D0D0] px-3 flex-none">
-										<div className="relative grid h-6 w-6 place-items-center rounded-full bg-[#FF7677]">
-											<svg width="11" height="12" viewBox="0 0 11 12" fill="none" xmlns="http://www.w3.org/2000/svg" className="absolute inset-0 m-auto">
-												<path d="M5.58594 1.94531L2.49219 11.375H0L4.22656 0H5.8125L5.58594 1.94531ZM8.15625 11.375L5.05469 1.94531L4.80469 0H6.40625L10.6562 11.375H8.15625ZM8.01562 7.14062V8.97656H2.00781V7.14062H8.01562Z" fill="black"/>
-											</svg>
-										</div>
-										<span className="text-sm text-[#5D5D5C]">Alex Conner</span>
-									</div>
+								<div className="flex h-12 w-[320px] flex-none items-center justify-end gap-4 rounded-[68px] order-1">
+									<StuIcon name="bell" size={20} className="text-brand-navy shrink-0" aria-label="Notifications" />
+									<StuIcon name="person" size={24} className="text-brand-navy shrink-0" aria-label="Profile" />
+									<StuIcon name="settings" size={20} className="text-brand-navy shrink-0" aria-label="Settings" />
+									<UserPill />
 								</div>
 							</div>
 						</div>

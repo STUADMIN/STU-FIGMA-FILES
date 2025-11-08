@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { StuIcon } from "../../components/icons/StuIcon";
+import { UserPill } from "../../components/header/UserPill";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -96,14 +97,7 @@ export default async function DashboardPage() {
 									<StuIcon name="bell" size={20} className="text-[var(--brand-navy)]" aria-label="Notifications" />
 									<StuIcon name="person" size={24} className="text-[var(--brand-navy)] flex-none grow-0" aria-label="Profile" />
 									<StuIcon name="settings" size={20} className="text-[var(--brand-navy)]" aria-label="Settings" />
-									<div className="flex h-10 items-center gap-2 rounded-[30px] border border-[#D0D0D0] px-3 flex-none">
-										<div className="relative grid h-6 w-6 place-items-center rounded-full bg-[#FF7677]">
-											<svg width="11" height="12" viewBox="0 0 11 12" fill="none" xmlns="http://www.w3.org/2000/svg" className="absolute inset-0 m-auto">
-												<path d="M5.58594 1.94531L2.49219 11.375H0L4.22656 0H5.8125L5.58594 1.94531ZM8.15625 11.375L5.05469 1.94531L4.80469 0H6.40625L10.6562 11.375H8.15625ZM8.01562 7.14062V8.97656H2.00781V7.14062H8.01562Z" fill="black"/>
-											</svg>
-										</div>
-										<span className="text-sm text-[#5D5D5C]">Alex Conner</span>
-									</div>
+									<UserPill />
 								</div>
 							</div>
 						</div>
