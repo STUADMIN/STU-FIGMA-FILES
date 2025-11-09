@@ -5,7 +5,7 @@ export const runtime = "nodejs";
 
 export async function POST() {
 	try {
-		const supabase = getSupabaseServerClient();
+		const supabase = await getSupabaseServerClient();
 		const { data, error: authError } = await supabase.auth.getUser();
 		if (authError) {
 			return NextResponse.json({ error: authError.message }, { status: 401 });

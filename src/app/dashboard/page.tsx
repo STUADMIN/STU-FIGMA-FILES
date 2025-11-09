@@ -1,11 +1,16 @@
 import Link from "next/link";
 import { StuIcon } from "../../components/icons/StuIcon";
 import { UserPill } from "../../components/header/UserPill";
+import { getSupabaseServerClient } from "../../lib/supabaseServer";
+import { WelcomeHeading } from "../../components/dashboard/WelcomeHeading";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export default async function DashboardPage() {
+  const supabase = await getSupabaseServerClient();
+  // Keep server client available for future server-rendered data needs.
+
   return (
 		<main className="min-h-dvh bg-white text-gray-900">
 			<div className="flex min-h-dvh">
@@ -103,7 +108,7 @@ export default async function DashboardPage() {
 						</div>
 					</div>
 					<div className="mx-auto max-w-7xl px-6 py-6">
-						<h2 className="mb-4 text-[40px] leading-[48px] font-bold text-[#0D2352]">Welcome Rob</h2>
+						<WelcomeHeading />
 						<div className="grid grid-cols-1 gap-6 md:grid-cols-2">
 							<div className="relative flex flex-col items-start gap-3 rounded-card border border-brand-tenders bg-white p-card shadow-sm h-[216px] w-full md:w-[544px]">
 								<div className="flex items-start justify-between">
