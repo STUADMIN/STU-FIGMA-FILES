@@ -15,7 +15,8 @@ type BodyPayload = {
   changedById?: string | null;
 };
 
-export async function POST(request: NextRequest, { params }: { params: { tenderId: string } }) {
+export async function POST(request: NextRequest, context: { params: Promise<{ tenderId: string }> }) {
+  await context.params;
   const body = (await request.json()) as BodyPayload;
   const tenderRecordId = body.tenderRecordId?.trim();
   const rawField = body.field?.trim().toLowerCase();

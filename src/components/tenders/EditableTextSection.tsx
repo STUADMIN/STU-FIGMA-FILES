@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import type { CSSProperties } from "react";
 import { useMemo, useState, useTransition } from "react";
@@ -211,3 +211,4 @@ export default function EditableTextSection({
     </section>
   );
 }
+

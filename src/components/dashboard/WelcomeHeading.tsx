@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useEffect, useState } from "react";
 import { getSupabaseBrowserClient } from "../../lib/supabaseClient";
@@ -66,5 +66,6 @@ export function WelcomeHeading({ initialFirstName = "" }: { initialFirstName?: s
 		</h2>
 	);
 }
+
 
 

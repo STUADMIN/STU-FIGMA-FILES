@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import Link from "next/link";
 import { DocumentDropzone } from "@/components/tenders/DocumentDropzone";
@@ -644,4 +644,5 @@ function FileUploadField({ hint, files, onFilesSelected }: FileUploadFieldProps)
   );
 
 }
+
 

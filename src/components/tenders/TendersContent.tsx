@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import React from "react";
 
 type TenderRow = {
@@ -66,7 +66,7 @@ const INITIAL_ROWS: TenderRow[] = [
   },
 ];
 
-export default function TendersContent(): JSX.Element {
+export default function TendersContent() {
   const [query, setQuery] = React.useState<string>("");
 
   const filteredRows = React.useMemo(() => {
@@ -211,5 +211,6 @@ export default function TendersContent(): JSX.Element {
     </div>
   );
 }
+
 
 

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import Link from "next/link";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
@@ -425,3 +425,4 @@ function getStatusClass(status?: string | null) {
   if (value.includes("unsuccess")) return "bg-[#FFE5E5] text-[#C53D3D]";
   return "bg-[#E6D9FA] text-[#5C3CAF]";
 }
+

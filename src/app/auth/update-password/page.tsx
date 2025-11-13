@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { useState, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
@@ -53,3 +53,4 @@ export default function UpdatePasswordPage() {
     </div>
   );
 }
+

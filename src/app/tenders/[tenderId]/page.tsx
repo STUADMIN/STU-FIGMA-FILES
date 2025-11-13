@@ -325,7 +325,15 @@ export default async function TenderDetailPage({
   const dueMeta = buildDueMeta(dueDateRaw);
   const usingFallback = !tender;
 
-  let changeLogs: TenderChangeLog[] = [];
+  let changeLogs: {
+    id: string;
+    field: "background" | "description";
+    previousValue: string | null;
+    newValue: string | null;
+    changedBy: string | null;
+    changedById: string | null;
+    changedAt: string;
+  }[] = [];
 
   if (tender) {
     const { data: logData, error: logsError } = await supabase

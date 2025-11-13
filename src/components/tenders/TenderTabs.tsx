@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useMemo, useState } from "react";
 
@@ -63,4 +63,5 @@ export function TenderTabs({ details, documents, activity, initialTab = "details
     </div>
   );
 }
+
 

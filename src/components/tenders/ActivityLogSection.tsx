@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -397,3 +397,4 @@ function AddActivityModal({
     </div>
   );
 }
+

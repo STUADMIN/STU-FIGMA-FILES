@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
@@ -619,6 +619,7 @@ const FILE_ICON_STYLES: Record<string, { main: string; fold: string }> = {
   png: { main: "#6F9BFF", fold: "#4E7CE0" },
   default: { main: "#CFD6E4", fold: "#B5BDCB" },
 };
+
 
 
 
