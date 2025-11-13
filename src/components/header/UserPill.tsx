@@ -32,9 +32,9 @@ function toDisplayName(meta: any): { name: string; initial: string } {
 	return { name, initial };
 }
 
-export function UserPill() {
-	const [name, setName] = useState<string>("");
-	const [initial, setInitial] = useState<string>("");
+export function UserPill({ initialName = "" }: { initialName?: string }) {
+	const [name, setName] = useState<string>(initialName);
+	const [initial, setInitial] = useState<string>(initialName ? (initialName[0] || "").toUpperCase() : "");
 	const [open, setOpen] = useState<boolean>(false);
 	const router = useRouter();
 
