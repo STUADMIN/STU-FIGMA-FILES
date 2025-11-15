@@ -142,8 +142,8 @@ export default async function TendersPage() {
 
   return (
     <AppShell userDisplayName={pillName} fullWidth>
-      <div className="flex w-full min-h-[calc(100vh-5rem)] flex-col items-start gap-7 bg-[#ECECEC] px-7 py-8">
-        <div className="flex w-full flex-col gap-7">
+      <div className="bg-[#ECECEC] px-5 py-5">
+        <div className="mx-auto flex w-full max-w-[1680px] flex-col gap-5">
           <header className="flex w-full items-start justify-between">
             <div className="flex items-center gap-4">
               <StuIcon name="tenders" size={40} className="text-brand-tenders md:hidden" aria-label="Tenders" />

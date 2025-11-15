@@ -223,56 +223,56 @@ export default function TendersTable({ rows, columnWidths }: TendersTableProps) 
         </div>
 
         <div className="overflow-hidden rounded-2xl border border-[#EAECF0]">
-          <div className="flex h-11 items-center bg-[#F7F7F7] px-5 text-sm font-semibold text-[#0D2352]">
+          <div className="flex h-9 items-center bg-[#F7F7F7] px-3 text-sm font-semibold text-[#0D2352]">
             <HeaderButton
-              width={columnWidths.tenderId}
               label="Tender ID"
               sortKey="tenderId"
               activeKey={sortKey}
               direction={sortDirection}
               onClick={toggleSort}
+              className="flex-[2] min-w-0"
             />
             <HeaderButton
-              width={columnWidths.name}
               label="Tender name"
               sortKey="title"
               activeKey={sortKey}
               direction={sortDirection}
               onClick={toggleSort}
+              className="flex-[4] min-w-0 sm:flex-[5]"
             />
             <HeaderButton
-              width={columnWidths.status}
               label="Status"
               sortKey="status"
               activeKey={sortKey}
               direction={sortDirection}
               onClick={toggleSort}
+              className="flex-[2] min-w-0"
             />
             <HeaderButton
-              width={columnWidths.assigned}
               label="Assigned to"
               sortKey="assignee"
               activeKey={sortKey}
               direction={sortDirection}
               onClick={toggleSort}
+              className="hidden min-w-0 md:flex md:flex-[3]"
             />
             <HeaderButton
-              width={columnWidths.due}
               label="Submission due date"
               sortKey="due"
               activeKey={sortKey}
               direction={sortDirection}
               onClick={toggleSort}
+              className="flex-[2] min-w-0"
             />
             <HeaderButton
-              width={columnWidths.response}
               label="Response date"
               sortKey="response"
               activeKey={sortKey}
               direction={sortDirection}
               onClick={toggleSort}
+              className="hidden min-w-0 lg:flex lg:flex-[2]"
             />
-            <div style={{ width: columnWidths.actions }} />
+            <div className="flex-[1] min-w-0" />
           </div>
 
           {sortedRows.length === 0 ? (
@@ -297,35 +297,35 @@ export default function TendersTable({ rows, columnWidths }: TendersTableProps) 
                 <Link
                   href={`/tenders/${encodeURIComponent(row.tenderId)}`}
                   key={row.id}
-                  className="group flex items-center border-t border-[#EAECF0] bg-white px-5 transition hover:bg-[#F7F9FF]"
-                  style={{ height: 64 }}
+                  className="group flex items-center border-t border-[#EAECF0] bg-white px-3 transition hover:bg-[#F7F9FF]"
+                  style={{ height: 52 }}
                 >
-                  <div className="text-[#0D2352]" style={{ width: columnWidths.tenderId }}>
+                  <div className="flex-[2] min-w-0 text-[#0D2352]">
                     {row.tenderId}
                   </div>
-                  <div className="flex flex-col justify-center gap-1" style={{ width: columnWidths.name }}>
-                    <span className="font-semibold text-[#0D2352] group-hover:text-[#0F3FB4]">{row.title}</span>
-                    <span className="text-xs text-[#5D5D5C]">{row.ref}</span>
+                  <div className="flex flex-[4] min-w-0 flex-col justify-center gap-1 sm:flex-[5]">
+                    <span className="truncate font-semibold text-[#0D2352] group-hover:text-[#0F3FB4]">{row.title}</span>
+                    <span className="truncate text-xs text-[#5D5D5C]">{row.ref}</span>
                   </div>
-                  <div style={{ width: columnWidths.status }}>
+                  <div className="flex-[2] min-w-0">
                     <span className={`inline-block px-3 py-1 text-xs font-semibold ${getStatusClass(row.status)}`}>
                       {row.status}
                     </span>
                   </div>
-                  <div className="flex items-center gap-3" style={{ width: columnWidths.assigned }}>
+                  <div className="hidden min-w-0 items-center gap-3 md:flex md:flex-[3]">
                     <span className="inline-grid h-8 w-8 place-items-center rounded-full bg-[#F4F5F7] text-[13px] font-semibold text-[#0D2352]">
                       {getInitials(row.assignee)}
                     </span>
-                    <span className="text-[#0D2352]">{row.assignee}</span>
+                    <span className="truncate text-[#0D2352]">{row.assignee}</span>
                   </div>
-                  <div className="flex flex-col justify-center gap-1" style={{ width: columnWidths.due }}>
+                  <div className="flex flex-[2] min-w-0 flex-col justify-center gap-1">
                     <span className="text-[#0D2352]">{row.due}</span>
                     {row.dueMeta ? <span className="text-xs text-[#0AD6A1]">{row.dueMeta}</span> : null}
                   </div>
-                  <div className="text-[#0D2352]" style={{ width: columnWidths.response }}>
+                  <div className="hidden min-w-0 text-[#0D2352] lg:flex lg:flex-[2]">
                     {row.response}
                   </div>
-                  <div className="flex justify-end pl-2" style={{ width: columnWidths.actions }}>
+                  <div className="flex flex-[1] justify-end pl-2">
                     {/* action placeholder intentionally left blank */}
                   </div>
                 </Link>
@@ -351,23 +351,24 @@ export default function TendersTable({ rows, columnWidths }: TendersTableProps) 
 }
 
 type HeaderButtonProps = {
-  width: number;
+  width?: number;
   label: string;
   sortKey: SortKey;
   activeKey: SortKey;
   direction: "asc" | "desc";
   onClick: (key: SortKey) => void;
+  className?: string;
 };
 
-function HeaderButton({ width, label, sortKey, activeKey, direction, onClick }: HeaderButtonProps) {
+function HeaderButton({ width, label, sortKey, activeKey, direction, onClick, className }: HeaderButtonProps) {
   const isActive = activeKey === sortKey;
 
   return (
     <button
       type="button"
       onClick={() => onClick(sortKey)}
-      className="flex items-center gap-2 text-left text-[#0D2352] transition hover:text-[#4C7CF0]"
-      style={{ width }}
+      className={`flex items-center gap-2 text-left text-[#0D2352] transition hover:text-[#4C7CF0] ${className ?? ""}`}
+      style={width ? { width } : undefined}
     >
       <span>{label}</span>
       <SortIcon active={isActive} direction={direction} />
