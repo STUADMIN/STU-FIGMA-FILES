@@ -146,15 +146,16 @@ export default async function TendersPage() {
         <div className="flex w-full flex-col gap-7">
           <header className="flex w-full items-start justify-between">
             <div className="flex items-center gap-4">
-              <StuIcon name="tenders" size={48} className="text-brand-tenders" aria-label="Tenders" />
+              <StuIcon name="tenders" size={40} className="text-brand-tenders md:hidden" aria-label="Tenders" />
+              <StuIcon name="tenders" size={48} className="text-brand-tenders hidden md:block" aria-label="Tenders" />
               <div>
-                <h1 className="text-[36px] font-semibold leading-[40px] text-[#0D2352]">Tenders</h1>
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold leading-tight text-[#0D2352]">Tenders</h1>
                 <p className="text-sm text-[#5D5D5C]">Live tender activity across the business</p>
               </div>
             </div>
             <Link
               href="/tenders/new"
-              className="rounded-[12px] bg-[#4C7CF0] px-6 py-2 text-[16px] font-normal leading-[28px] text-white shadow transition hover:bg-[#3B6BE0]"
+              className="rounded-[12px] bg-[#4C7CF0] px-4 py-2 text-sm md:text-base font-normal leading-[24px] md:leading-[28px] text-white shadow transition hover:bg-[#3B6BE0]"
               style={{ fontFamily: "Montserrat, sans-serif", textAlign: "center" }}
             >
               Create new tender

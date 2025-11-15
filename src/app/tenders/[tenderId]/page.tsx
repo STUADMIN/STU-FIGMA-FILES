@@ -563,8 +563,8 @@ function TopBanner({
 
         <div className="flex flex-wrap items-center gap-3">
           <h1
-            className="font-bold text-black"
-            style={{ fontFamily: "Montserrat, sans-serif", fontSize: "40px", lineHeight: "48px" }}
+            className="font-bold text-black text-2xl sm:text-3xl lg:text-4xl leading-tight"
+            style={{ fontFamily: "Montserrat, sans-serif" }}
           >
             {title}
           </h1>

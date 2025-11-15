@@ -135,12 +135,12 @@ export default function AppShell({ children, userDisplayName, fullWidth = false 
 					{/* Mast header */}
 					<div className="border-b border-gray-200 bg-white">
 						<div className="w-full px-4 sm:px-6 lg:px-8">
-							<div className="flex h-20 items-center justify-between">
+							<div className="flex h-14 md:h-16 lg:h-20 items-center justify-between">
 								<div className="relative">
 									<input
 										type="text"
 										placeholder="Search..."
-										className="h-12 w-[302px] rounded-[20px] border border-[#BBC9CE] bg-white pl-10 pr-4 text-sm text-gray-700 placeholder-gray-400 outline-none"
+										className="h-10 md:h-11 lg:h-12 w-48 sm:w-60 md:w-72 lg:w-[302px] rounded-[20px] border border-[#BBC9CE] bg-white pl-10 pr-4 text-sm text-gray-700 placeholder-gray-400 outline-none"
 										aria-label="Search"
 									/>
 									<svg
