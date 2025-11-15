@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
@@ -118,3 +118,4 @@ export default function VerifyPage() {
     </div>
   );
 }
+

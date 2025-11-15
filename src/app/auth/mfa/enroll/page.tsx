@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
@@ -102,5 +102,6 @@ export default function EnrollMfaPage() {
     </div>
   );
 }
+
 
 
