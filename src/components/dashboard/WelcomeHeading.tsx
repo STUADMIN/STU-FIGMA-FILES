@@ -1,8 +1,4 @@
-<<<<<<< Updated upstream
-'use client';
-=======
 "use client";
->>>>>>> Stashed changes
 
 import { useEffect, useState } from "react";
 import { getSupabaseBrowserClient } from "../../lib/supabaseClient";
