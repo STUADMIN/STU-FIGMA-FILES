@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { useState, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
@@ -60,3 +60,4 @@ export default function ResetPasswordPage() {
     </div>
   );
 }
+

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import Link from "next/link";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
@@ -15,48 +15,20 @@ export type TenderRow = {
   response: string;
 };
 
-type ColumnKey =
-  | "tenderId"
-  | "title"
-  | "status"
-  | "assignee"
-  | "due"
-  | "response"
-  | "actions";
-
-export type ColumnWidths = Partial<Record<ColumnKey, number>>;
+type ColumnWidths = Record<string, number>;
 
 type SortKey = "tenderId" | "title" | "status" | "assignee" | "due" | "response";
 
 type TendersTableProps = {
   rows: TenderRow[];
-  columnWidths?: ColumnWidths; // flex ratios per column (override defaults)
+  columnWidths: ColumnWidths;
 };
-
-const DEFAULT_COLUMN_FLEX: Record<ColumnKey, number> = {
-  tenderId: 1.5,
-  title: 3,
-  status: 1.2,
-  assignee: 1.6,
-  due: 1.6,
-  response: 1.2,
-  actions: 0.5,
-};
-
-function getFlexValue(key: ColumnKey, overrides?: ColumnWidths) {
-  const override = overrides?.[key];
-  return typeof override === "number" && override > 0
-    ? override
-    : DEFAULT_COLUMN_FLEX[key];
-}
 
 export default function TendersTable({ rows, columnWidths }: TendersTableProps) {
   const statusOptions = useMemo(() => {
     const uniqueStatuses = Array.from(new Set(rows.map((row) => row.status)));
     return uniqueStatuses.sort((a, b) => a.localeCompare(b));
   }, [rows]);
-
-  const flexFor = (key: ColumnKey) => getFlexValue(key, columnWidths);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [sortKey, setSortKey] = useState<SortKey>("tenderId");
@@ -94,17 +66,10 @@ export default function TendersTable({ rows, columnWidths }: TendersTableProps) 
     const term = searchTerm.trim().toLowerCase();
 
     return rows.filter((row) => {
-      const matchesStatus =
-        selectedStatuses.length === 0 || selectedStatuses.includes(row.status);
+      const matchesStatus = selectedStatuses.length === 0 || selectedStatuses.includes(row.status);
       if (!term) return matchesStatus;
 
-      const haystack = [
-        row.tenderId,
-        row.title,
-        row.ref,
-        row.status,
-        row.assignee,
-      ]
+      const haystack = [row.tenderId, row.title, row.ref, row.status, row.assignee]
         .join(" ")
         .toLowerCase();
       return matchesStatus && haystack.includes(term);
@@ -137,18 +102,14 @@ export default function TendersTable({ rows, columnWidths }: TendersTableProps) 
       const aValue = getSortValue(a);
       const bValue = getSortValue(b);
 
-      if (aValue === null || aValue === undefined)
-        return bValue === null || bValue === undefined ? 0 : 1;
+      if (aValue === null || aValue === undefined) return bValue === null || bValue === undefined ? 0 : 1;
       if (bValue === null || bValue === undefined) return -1;
 
       if (aValue instanceof Date && bValue instanceof Date) {
         return aValue.getTime() - bValue.getTime();
       }
 
-      return String(aValue).localeCompare(String(bValue), undefined, {
-        sensitivity: "base",
-        numeric: true,
-      });
+      return String(aValue).localeCompare(String(bValue), undefined, { sensitivity: "base", numeric: true });
     };
 
     data.sort((a, b) => {
@@ -180,7 +141,7 @@ export default function TendersTable({ rows, columnWidths }: TendersTableProps) 
   const selectAllStatuses = () => setSelectedStatuses(statusOptions);
 
   return (
-    <div className="flex w-full flex-col gap-6 rounded-[28px] border border-[#EAECF0] bg-white p-5 shadow-sm">
+    <div className="flex w-full flex-col gap-6 rounded-[28px] border border-[#EAECF0] bg-white p-7 shadow-sm">
       <div className="flex flex-col gap-5">
         <div className="flex flex-wrap items-center gap-3 sm:justify-between">
           <div className="relative w-full max-w-[420px] flex-1">
@@ -229,10 +190,7 @@ export default function TendersTable({ rows, columnWidths }: TendersTableProps) 
                 </div>
                 <div className="flex max-h-44 flex-col gap-2 overflow-auto pr-1">
                   {statusOptions.map((status) => (
-                    <label
-                      key={status}
-                      className="flex items-center gap-2 text-sm text-[#0D2352]"
-                    >
+                    <label key={status} className="flex items-center gap-2 text-sm text-[#0D2352]">
                       <input
                         type="checkbox"
                         checked={selectedStatuses.includes(status)}
@@ -265,15 +223,14 @@ export default function TendersTable({ rows, columnWidths }: TendersTableProps) 
         </div>
 
         <div className="overflow-hidden rounded-2xl border border-[#EAECF0]">
-          <div className="flex h-9 items-center bg-[#F7F7F7] px-3 text-sm font-semibold text-[#0D2352]">
+          <div className="sticky top-0 z-10 flex h-10 items-center bg-[#F7F7F7]/95 px-3 text-xs font-semibold text-[#0D2352] backdrop-blur supports-[backdrop-filter]:bg-[#F7F7F7]/80">
             <HeaderButton
               label="Tender ID"
               sortKey="tenderId"
               activeKey={sortKey}
               direction={sortDirection}
               onClick={toggleSort}
-              flex={flexFor("tenderId")}
-              className="min-w-0"
+              className="flex-[2] min-w-0"
             />
             <HeaderButton
               label="Tender name"
@@ -281,8 +238,7 @@ export default function TendersTable({ rows, columnWidths }: TendersTableProps) 
               activeKey={sortKey}
               direction={sortDirection}
               onClick={toggleSort}
-              flex={flexFor("title")}
-              className="min-w-0"
+              className="flex-[4] min-w-0 sm:flex-[5]"
             />
             <HeaderButton
               label="Status"
@@ -290,8 +246,7 @@ export default function TendersTable({ rows, columnWidths }: TendersTableProps) 
               activeKey={sortKey}
               direction={sortDirection}
               onClick={toggleSort}
-              flex={flexFor("status")}
-              className="min-w-0"
+              className="flex-[2] min-w-0"
             />
             <HeaderButton
               label="Assigned to"
@@ -299,8 +254,7 @@ export default function TendersTable({ rows, columnWidths }: TendersTableProps) 
               activeKey={sortKey}
               direction={sortDirection}
               onClick={toggleSort}
-              flex={flexFor("assignee")}
-              className="hidden min-w-0 xl:flex"
+              className="hidden min-w-0 md:flex md:flex-[3]"
             />
             <HeaderButton
               label="Submission due date"
@@ -308,8 +262,7 @@ export default function TendersTable({ rows, columnWidths }: TendersTableProps) 
               activeKey={sortKey}
               direction={sortDirection}
               onClick={toggleSort}
-              flex={flexFor("due")}
-              className="min-w-0"
+              className="flex-[2] min-w-0 justify-end text-right"
             />
             <HeaderButton
               label="Response date"
@@ -317,13 +270,9 @@ export default function TendersTable({ rows, columnWidths }: TendersTableProps) 
               activeKey={sortKey}
               direction={sortDirection}
               onClick={toggleSort}
-              flex={flexFor("response")}
-              className="hidden min-w-0 2xl:flex"
+              className="hidden min-w-0 justify-end text-right lg:flex lg:flex-[2]"
             />
-            <div
-              className="flex min-w-0"
-              style={{ flex: `${flexFor("actions")} 1 0%` }}
-            />
+            <div className="flex-[1] min-w-0" />
           </div>
 
           {sortedRows.length === 0 ? (
@@ -331,78 +280,60 @@ export default function TendersTable({ rows, columnWidths }: TendersTableProps) 
               No tenders to show yet. Create a new tender to get started.
             </div>
           ) : (
-            sortedRows.map((row) => (
-              <Link
-                href={`/tenders/${encodeURIComponent(row.tenderId)}`}
-                key={row.id}
-                className="group flex items-center border-t border-[#EAECF0] bg-white px-3 transition hover:bg-[#F7F9FF]"
-                style={{ height: 52 }}
-              >
-                <div
-                  className="min-w-0 text-[#0D2352]"
-                  style={{ flex: `${flexFor("tenderId")} 1 0%` }}
+            sortedRows.map((row) => {
+              const newRow = {
+                id: row.id,
+                tenderId: row.tenderId,
+                title: row.title,
+                ref: row.ref,
+                status: row.status,
+                assignee: row.assignee,
+                due: row.due,
+                dueMeta: row.dueMeta,
+                response: row.response,
+              };
+
+              return (
+                <Link
+                  href={`/tenders/${encodeURIComponent(row.tenderId)}`}
+                  key={row.id}
+                  className="group flex h-11 items-center border-t border-[#EAECF0] bg-white px-3 text-xs transition hover:bg-[#F7F9FF] md:h-[48px]"
                 >
-                  {row.tenderId}
-                </div>
-                <div
-                  className="flex min-w-0 flex-col justify-center gap-1"
-                  style={{ flex: `${flexFor("title")} 1 0%` }}
-                >
-                  <span className="truncate font-semibold text-[#0D2352] group-hover:text-[#0F3FB4]">
-                    {row.title}
-                  </span>
-                  <span className="truncate text-xs text-[#5D5D5C]">
-                    {row.ref}
-                  </span>
-                </div>
-                <div
-                  className="min-w-0"
-                  style={{ flex: `${flexFor("status")} 1 0%` }}
-                >
-                  <span
-                    className={`inline-block px-3 py-1 text-xs font-semibold ${getStatusClass(
-                      row.status
-                    )}`}
-                  >
-                    {row.status}
-                  </span>
-                </div>
-                <div
-                  className="hidden min-w-0 items-center gap-3 xl:flex"
-                  style={{ flex: `${flexFor("assignee")} 1 0%` }}
-                >
-                  <span className="inline-grid h-8 w-8 place-items-center rounded-full bg-[#F4F5F7] text-[13px] font-semibold text-[#0D2352]">
-                    {getInitials(row.assignee)}
-                  </span>
-                  <span className="truncate text-[#0D2352]">
-                    {row.assignee}
-                  </span>
-                </div>
-                <div
-                  className="flex min-w-0 flex-col justify-center gap-1"
-                  style={{ flex: `${flexFor("due")} 1 0%` }}
-                >
-                  <span className="text-[#0D2352]">{row.due}</span>
-                  {row.dueMeta ? (
-                    <span className="text-xs text-[#0AD6A1]">
-                      {row.dueMeta}
+                  <div className="flex-[2] min-w-0 truncate font-mono text-[12px] tracking-tight text-[#0D2352]">
+                    {row.tenderId}
+                  </div>
+                  <div className="flex flex-[4] min-w-0 flex-col justify-center gap-0.5 sm:flex-[5]">
+                    <span className="truncate text-sm font-semibold text-[#0D2352] group-hover:text-[#0F3FB4]">
+                      {row.title}
                     </span>
-                  ) : null}
-                </div>
-                <div
-                  className="hidden min-w-0 text-[#0D2352] 2xl:flex"
-                  style={{ flex: `${flexFor("response")} 1 0%` }}
-                >
-                  {row.response}
-                </div>
-                <div
-                  className="flex justify-end pl-2"
-                  style={{ flex: `${flexFor("actions")} 1 0%` }}
-                >
-                  {/* action placeholder intentionally left blank */}
-                </div>
-              </Link>
-            ))
+                    <span className="truncate text-[11px] leading-4 text-[#5D5D5C]">{row.ref}</span>
+                  </div>
+                  <div className="flex-[2] min-w-0">
+                    <span className={`inline-block px-3 py-1 text-xs font-semibold ${getStatusClass(row.status)}`}>
+                      {row.status}
+                    </span>
+                  </div>
+                  <div className="hidden min-w-0 items-center gap-3 md:flex md:flex-[3]">
+                    <span className="inline-grid h-8 w-8 place-items-center rounded-full bg-[#F4F5F7] text-[12px] font-semibold text-[#0D2352]">
+                      {getInitials(row.assignee)}
+                    </span>
+                    <span className="truncate text-[#0D2352]">{row.assignee}</span>
+                  </div>
+                  <div className="flex flex-[2] min-w-0 flex-col items-end justify-center gap-0.5 text-right">
+                    <span className="whitespace-nowrap text-[#0D2352]">{row.due}</span>
+                    {row.dueMeta ? (
+                      <span className="whitespace-nowrap text-[11px] text-[#0AD6A1]">{row.dueMeta}</span>
+                    ) : null}
+                  </div>
+                  <div className="hidden min-w-0 justify-end whitespace-nowrap text-right text-[#0D2352] lg:flex lg:flex-[2]">
+                    {row.response}
+                  </div>
+                  <div className="flex flex-[1] justify-end pl-2">
+                    {/* action placeholder intentionally left blank */}
+                  </div>
+                </Link>
+              );
+            })
           )}
         </div>
       </div>
@@ -410,16 +341,10 @@ export default function TendersTable({ rows, columnWidths }: TendersTableProps) 
       <div className="flex flex-col gap-2 text-sm text-[#5D5D5C] sm:flex-row sm:items-center sm:justify-between">
         <span>Page 1 of 1</span>
         <div className="flex items-center gap-2">
-          <button
-            disabled
-            className="rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-500 disabled:opacity-60"
-          >
+          <button disabled className="rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-500 disabled:opacity-60">
             Prev
           </button>
-          <button
-            disabled
-            className="rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-500 disabled:opacity-60"
-          >
+          <button disabled className="rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-500 disabled:opacity-60">
             Next
           </button>
         </div>
@@ -429,7 +354,7 @@ export default function TendersTable({ rows, columnWidths }: TendersTableProps) 
 }
 
 type HeaderButtonProps = {
-  flex?: number;
+  width?: number;
   label: string;
   sortKey: SortKey;
   activeKey: SortKey;
@@ -438,25 +363,15 @@ type HeaderButtonProps = {
   className?: string;
 };
 
-function HeaderButton({
-  flex,
-  label,
-  sortKey,
-  activeKey,
-  direction,
-  onClick,
-  className,
-}: HeaderButtonProps) {
+function HeaderButton({ width, label, sortKey, activeKey, direction, onClick, className }: HeaderButtonProps) {
   const isActive = activeKey === sortKey;
 
   return (
     <button
       type="button"
       onClick={() => onClick(sortKey)}
-      className={`flex items-center gap-2 text-left text-[#0D2352] transition hover:text-[#4C7CF0] ${
-        className ?? ""
-      }`}
-      style={flex ? { flex: `${flex} 1 0%` } : undefined}
+      className={`flex items-center gap-2 text-left text-[#0D2352] transition hover:text-[#4C7CF0] ${className ?? ""}`}
+      style={width ? { width } : undefined}
     >
       <span>{label}</span>
       <SortIcon active={isActive} direction={direction} />
@@ -464,24 +379,12 @@ function HeaderButton({
   );
 }
 
-function SortIcon({
-  active,
-  direction,
-}: {
-  active: boolean;
-  direction: "asc" | "desc";
-}) {
+function SortIcon({ active, direction }: { active: boolean; direction: "asc" | "desc" }) {
   const maskId = useId();
   const color = active ? "#0D2352" : "#A3A3A3";
 
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
-      viewBox="0 0 16 16"
-      fill="none"
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
       <mask id={maskId} fill="white">
         <path d="M11.3538 10.6462C11.4003 10.6926 11.4372 10.7477 11.4623 10.8084C11.4875 10.8691 11.5004 10.9342 11.5004 10.9999C11.5004 11.0656 11.4875 11.1307 11.4623 11.1914C11.4372 11.2521 11.4003 11.3072 11.3538 11.3537L8.35378 14.3537C8.30735 14.4001 8.2522 14.437 8.1915 14.4622C8.13081 14.4873 8.06574 14.5003 8.00003 14.5003C7.93433 14.5003 7.86926 14.4873 7.80856 14.4622C7.74786 14.437 7.69272 14.4001 7.64628 14.3537L4.64628 11.3537C4.55246 11.2598 4.49976 11.1326 4.49976 10.9999C4.49976 10.8672 4.55246 10.74 4.64628 10.6462C4.7401 10.5523 4.86735 10.4996 5.00003 10.4996C5.13272 10.4996 5.25996 10.5523 5.35378 10.6462L8.00003 13.293L10.6463 10.6462C10.6927 10.5997 10.7479 10.5628 10.8086 10.5376C10.8693 10.5125 10.9343 10.4995 11 10.4995C11.0657 10.4995 11.1308 10.5125 11.1915 10.5376C11.2522 10.5628 11.3073 10.5997 11.3538 10.6462ZM5.35378 5.35366L8.00003 2.70678L10.6463 5.35366C10.7401 5.44748 10.8674 5.50018 11 5.50018C11.1327 5.50018 11.26 5.44748 11.3538 5.35366C11.4476 5.25984 11.5003 5.13259 11.5003 4.99991C11.5003 4.86722 11.4476 4.73998 11.3538 4.64615L8.35378 1.64615C8.30735 1.59967 8.2522 1.56279 8.1915 1.53763C8.13081 1.51246 8.06574 1.49951 8.00003 1.49951C7.93433 1.49951 7.86926 1.51246 7.80856 1.53763C7.74786 1.56279 7.69272 1.59967 7.64628 1.64615L4.64628 4.64615C4.55246 4.73998 4.49976 4.86722 4.49976 4.99991C4.49976 5.13259 4.55246 5.25983 4.64628 5.35365C4.7401 5.44748 4.86735 5.50018 5.00003 5.50018C5.13272 5.50018 5.25996 5.44748 5.35378 5.35366Z" />
       </mask>
@@ -526,3 +429,4 @@ function getStatusClass(status?: string | null) {
   if (value.includes("unsuccess")) return "bg-[#FFE5E5] text-[#C53D3D]";
   return "bg-[#E6D9FA] text-[#5C3CAF]";
 }
+

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
@@ -77,3 +77,4 @@ export default function RegisterPage() {
     </div>
   );
 }
+

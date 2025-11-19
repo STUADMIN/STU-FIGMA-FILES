@@ -25,6 +25,21 @@ create table if not exists public.people (
 
 create index if not exists people_org_idx on public.people(organization_id);
 
+-- Activity log storage for tender timeline entries
+create table if not exists public.tender_activity_logs (
+  id uuid primary key default gen_random_uuid(),
+  tender_id text not null,
+  note text not null,
+  status_snapshot text,
+  type text not null default 'note',
+  author_id uuid references auth.users(id) on delete set null,
+  author_name text,
+  author_initials text,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists tender_activity_logs_tender_id_idx on public.tender_activity_logs(tender_id);
+
 -- Organizations
 insert into public.organizations(name) values
   ('Ratchet & Sons Construction Co.'),
@@ -176,3 +191,16 @@ commit;
 -- where not exists (select 1 from auth.users where email = 'timmy.trowel@your-domain.com');
 
 
+-- Tender change history
+create table if not exists public.tender_change_logs (
+    id uuid primary key default gen_random_uuid(),
+    tender_id uuid not null references public.tenders(id) on delete cascade,
+    field text not null check (field in ('background','description')),
+    previous_value text,
+    new_value text,
+    changed_by text not null,
+    changed_by_id uuid,
+    changed_at timestamptz not null default now()
+);
+
+create index if not exists tender_change_logs_tender_id_idx on public.tender_change_logs(tender_id, changed_at desc);
