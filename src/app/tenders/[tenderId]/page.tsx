@@ -10,18 +10,26 @@ export default function TenderDetailPage({ params }: TenderDetailPageProps) {
   const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
 
   return (
-    <main className="min-h-dvh p-6">
-      <div className="mx-auto max-w-4xl">
-        <div className="mb-4 flex items-center justify-between">
-          <h1 className="text-2xl font-semibold">Tender {params.tenderId}</h1>
-          <button
-            type="button"
-            onClick={() => setIsFeedbackModalOpen(true)}
-            className="inline-flex h-[44px] w-[144px] items-center justify-center gap-1 rounded border border-[#D0D0D0] px-4 py-2 text-sm font-medium text-gray-800"
-          >
-            Add feedback
-          </button>
+    <main className="min-h-dvh">
+      {/* Banner header */}
+      <div className="border-b border-gray-200 bg-white">
+        <div className="mx-auto w-full max-w-[1440px] px-5 lg:px-8">
+          <div className="flex h-24 items-center justify-between">
+            <h1 className="text-2xl font-semibold sm:text-3xl lg:text-4xl">
+              Tender {params.tenderId}
+            </h1>
+            <button
+              type="button"
+              onClick={() => setIsFeedbackModalOpen(true)}
+              className="inline-flex h-[44px] w-[144px] items-center justify-center gap-1 rounded border border-[#D0D0D0] px-4 py-2 text-sm font-medium text-gray-800"
+            >
+              Add feedback
+            </button>
+          </div>
         </div>
+      </div>
+      {/* Page content */}
+      <div className="mx-auto w-full max-w-[1440px] px-5 py-6 lg:px-8">
         <p className="text-gray-600">Details will appear here.</p>
       </div>
 
