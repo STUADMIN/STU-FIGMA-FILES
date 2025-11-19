@@ -509,6 +509,11 @@ export default async function TenderDetailPage({
             tenderSlug={tenderIdentifier}
           />
 
+          {/* Safety: ensure the feedback button is always visible just below the banner as well */}
+          <div className="mx-auto w-full max-w-6xl px-6 pt-3 flex justify-end">
+            <FeedbackButton tenderSlug={tenderIdentifier} />
+          </div>
+
           <main className="mx-auto my-6 w-full max-w-6xl px-6">
             <TenderTabs details={detailsContent} documents={documentsContent} feedback={feedbackContent} activity={activityContent} />
           </main>
