@@ -77,56 +77,44 @@ insert into public.people(first_name, last_name, organization_id, email) values
   ('Alex','Mason',           (select id from orgs where name='STU'),                            'alex.mason@stu.com')
 on conflict (email) do nothing;
 
--- Auth users (admin function; requires SQL Editor or service role)
+-- Auth users (SQL helper)
 -- Lisa Terry (confirmed) with provided password
-do $$
-begin
-  if not exists (select 1 from auth.users where email = 'lisa.terry@stu.com') then
-    perform auth.admin.create_user(
-      email := 'lisa.terry@stu.com',
-      password := 'Qwertyuiop1!',
-      email_confirm := true
-    );
-  end if;
-end $$;
+select auth.create_user(
+  email => 'lisa.terry@stu.com',
+  password => 'Qwertyuiop1!',
+  email_confirm => true
+)
+where not exists (select 1 from auth.users where email = 'lisa.terry@stu.com');
 
 -- Timmy Trowel account
-do $$
-begin
-  if not exists (select 1 from auth.users where email = 'timmy.trowel@te.com') then
-    perform auth.admin.create_user(
-      email := 'timmy.trowel@te.com',
-      password := 'qwertyuop1!',
-      email_confirm := true
-    );
-  end if;
-end $$;
+select auth.create_user(
+  email => 'timmy.trowel@te.com',
+  password => 'qwertyuop1!',
+  email_confirm => true
+)
+where not exists (select 1 from auth.users where email = 'timmy.trowel@te.com');
 
 -- Additional demo accounts (STU)
-do $$
-begin
-  if not exists (select 1 from auth.users where email = 'priya.shah@stu.com') then
-    perform auth.admin.create_user(
-      email := 'priya.shah@stu.com',
-      password := 'Qwertyuiop1!',
-      email_confirm := true
-    );
-  end if;
-  if not exists (select 1 from auth.users where email = 'owen.carter@stu.com') then
-    perform auth.admin.create_user(
-      email := 'owen.carter@stu.com',
-      password := 'Qwertyuiop1!',
-      email_confirm := true
-    );
-  end if;
-  if not exists (select 1 from auth.users where email = 'alex.mason@stu.com') then
-    perform auth.admin.create_user(
-      email := 'alex.mason@stu.com',
-      password := 'Qwertyuiop1!',
-      email_confirm := true
-    );
-  end if;
-end $$;
+select auth.create_user(
+  email => 'priya.shah@stu.com',
+  password => 'Qwertyuiop1!',
+  email_confirm => true
+)
+where not exists (select 1 from auth.users where email = 'priya.shah@stu.com');
+
+select auth.create_user(
+  email => 'owen.carter@stu.com',
+  password => 'Qwertyuiop1!',
+  email_confirm => true
+)
+where not exists (select 1 from auth.users where email = 'owen.carter@stu.com');
+
+select auth.create_user(
+  email => 'alex.mason@stu.com',
+  password => 'Qwertyuiop1!',
+  email_confirm => true
+)
+where not exists (select 1 from auth.users where email = 'alex.mason@stu.com');
 
 commit;
 
