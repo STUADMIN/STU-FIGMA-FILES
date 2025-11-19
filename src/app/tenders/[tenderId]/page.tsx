@@ -43,6 +43,18 @@ type TenderRow = {
 
 type BadgeVariant = "blue" | "green" | "amber" | "slate" | "purple";
 
+// Local fallback type restored from usage context to satisfy TypeScript
+// for change log entries fetched from 'tender_change_logs'.
+type TenderChangeLog = {
+  id: string;
+  field: "background" | "description";
+  previousValue: string | null;
+  newValue: string | null;
+  changedBy: string | null;
+  changedById: string | null;
+  changedAt: string;
+};
+
 function parseDate(value?: string | null) {
   if (!value) return null;
   const date = new Date(value);
