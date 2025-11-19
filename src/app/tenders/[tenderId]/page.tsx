@@ -501,6 +501,7 @@ export default async function TenderDetailPage({
             assignedTo={activeTender.assigned_to_name || "Unassigned"}
             dueDate={formatDate(activeTender.submission_due_date)}
             dueMeta={dueMeta}
+            tenderSlug={tenderIdentifier}
           />
 
           <main className="mx-auto my-6 w-full max-w-6xl px-6">
@@ -537,6 +538,7 @@ function TopBanner({
   assignedTo,
   dueDate,
   dueMeta,
+  tenderSlug,
 }: {
   title: string;
   status: string;
@@ -548,6 +550,7 @@ function TopBanner({
   assignedTo: string;
   dueDate: string;
   dueMeta: string;
+  tenderSlug: string;
 }) {
       return (
     <div className="w-full border-b border-slate-200 bg-white">
@@ -581,7 +584,7 @@ function TopBanner({
               {status}
             </span>
           </div>
-          <FeedbackButton />
+          <FeedbackButton tenderSlug={tenderSlug} />
         </div>
         <div
           className="mt-2 self-stretch text-[#61828D]"
