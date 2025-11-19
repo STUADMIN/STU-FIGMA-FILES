@@ -2,40 +2,50 @@
 
 import React, { useMemo, useState } from "react";
 
-type TenderTabKey = "details" | "submitted" | "activity";
+type TenderTabKey = "details" | "submitted" | "feedback" | "activity";
 
 type TenderTabsProps = {
   details: React.ReactNode;
   documents: React.ReactNode;
+  feedback?: React.ReactNode;
   activity: React.ReactNode;
   initialTab?: TenderTabKey;
 };
 
-const TAB_DEFINITIONS: { key: TenderTabKey; label: string }[] = [
-  { key: "details", label: "Tender details" },
-  { key: "submitted", label: "Submitted documents" },
-  { key: "activity", label: "Activity log" },
-];
+function buildTabs(hasFeedback: boolean) {
+  const base: { key: TenderTabKey; label: string }[] = [
+    { key: "details", label: "Tender details" },
+    { key: "submitted", label: "Submitted documents" },
+  ];
+  if (hasFeedback) {
+    base.push({ key: "feedback", label: "Feedback scores" });
+  }
+  base.push({ key: "activity", label: "Activity log" });
+  return base;
+}
 
-export function TenderTabs({ details, documents, activity, initialTab = "details" }: TenderTabsProps) {
+export function TenderTabs({ details, documents, feedback, activity, initialTab = "details" }: TenderTabsProps) {
   const [activeTab, setActiveTab] = useState<TenderTabKey>(initialTab);
+  const tabs = useMemo(() => buildTabs(Boolean(feedback)), [feedback]);
 
   const currentContent = useMemo(() => {
     switch (activeTab) {
       case "submitted":
         return documents;
+      case "feedback":
+        return feedback;
       case "activity":
         return activity;
       case "details":
       default:
         return details;
     }
-  }, [activeTab, activity, details, documents]);
+  }, [activeTab, activity, details, documents, feedback]);
 
   return (
     <div className="rounded-b-[16px] border border-[#D0D0D0] bg-white shadow-sm">
       <nav className="flex items-end gap-2 border-b border-[#D0D0D0] bg-[#ECECEC] pl-6 pr-8 pt-4">
-        {TAB_DEFINITIONS.map((tab) => {
+        {tabs.map((tab) => {
           const isActive = tab.key === activeTab;
           return (
             <button

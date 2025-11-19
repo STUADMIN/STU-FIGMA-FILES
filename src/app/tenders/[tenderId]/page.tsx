@@ -6,6 +6,7 @@ import ActivityLogSection from "@/components/tenders/ActivityLogSection";
 import type { ActivityEvent } from "@/components/tenders/ActivityLogSection";
 import SubmittedDocumentsTab, { SubmittedDocument } from "@/components/tenders/SubmittedDocumentsTab";
 import { TenderTabs } from "@/components/tenders/TenderTabs";
+import { FeedbackScoresTab } from "@/components/tenders/FeedbackScoresTab";
 import { getSupabaseServerClient } from "@/lib/supabaseServer";
 import FeedbackButton from "@/components/tenders/FeedbackButton";
 import Link from "next/link";
@@ -486,6 +487,10 @@ export default async function TenderDetailPage({
     />
   );
 
+  const feedbackContent = (
+    <FeedbackScoresTab feedback={null} />
+  );
+
   return (
     <AppShell userDisplayName={fullName} fullWidth>
       <div className="flex w-full min-h-[calc(100vh-5rem)] justify-center bg-[#ECECEC]">
@@ -505,7 +510,7 @@ export default async function TenderDetailPage({
           />
 
           <main className="mx-auto my-6 w-full max-w-6xl px-6">
-            <TenderTabs details={detailsContent} documents={documentsContent} activity={activityContent} />
+            <TenderTabs details={detailsContent} documents={documentsContent} feedback={feedbackContent} activity={activityContent} />
           </main>
         </div>
       </div>
