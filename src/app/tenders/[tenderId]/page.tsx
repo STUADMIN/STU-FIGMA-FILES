@@ -545,6 +545,7 @@ export default async function TenderDetailPage({
           comments={payload.comments}
           attachments={Array.isArray(payload.attachments) ? payload.attachments : []}
           splits={Array.isArray(payload.splits) ? payload.splits : []}
+          tenderSlug={tenderIdentifier}
         />
       );
     } catch {
@@ -584,7 +585,7 @@ export default async function TenderDetailPage({
                     details={detailsContent}
                     documents={documentsContent}
                     /* Always render the Feedback tab; show designed empty-state if no payload yet */
-                    feedback={feedbackContent ?? <FeedbackScoresDesigned />}
+                    feedback={feedbackContent ?? <FeedbackScoresDesigned tenderSlug={tenderIdentifier} />}
                     activity={activityContent}
                     initialTab={feedbackContent ? "feedback" : "details"}
                   />

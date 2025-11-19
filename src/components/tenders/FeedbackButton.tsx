@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import FeedbackScoresModal, { type FeedbackScoresFormData } from "@/components/tenders/FeedbackScoresModal";
 
-export default function FeedbackButton({ tenderSlug }: { tenderSlug?: string }) {
+export default function FeedbackButton({ tenderSlug, label = "Add feedback" }: { tenderSlug?: string; label?: string }) {
 	const [open, setOpen] = useState(false);
 	const router = useRouter();
 
@@ -25,9 +25,9 @@ export default function FeedbackButton({ tenderSlug }: { tenderSlug?: string }) 
 			<button
 				type="button"
 				onClick={() => setOpen(true)}
-				className="inline-flex h-[44px] w-[144px] items-center justify-center gap-1 rounded border border-[#D0D0D0] px-4 py-2 text-sm font-medium text-gray-800"
+				className="inline-flex h-[44px] px-4 items-center justify-center gap-1 rounded border border-[#D0D0D0] text-sm font-medium text-gray-800"
 			>
-				Add feedback
+				{label}
 			</button>
 
 			<FeedbackScoresModal open={open} onClose={() => setOpen(false)} onComplete={handleComplete} />

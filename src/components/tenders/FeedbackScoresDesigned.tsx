@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import FeedbackButton from "./FeedbackButton";
 
 export type FeedbackSplit = { id: string; description: string; percentage: number };
 
@@ -11,6 +12,7 @@ export type FeedbackDesignedProps = {
 	comments?: string;
 	attachments?: string[];
 	splits?: FeedbackSplit[];
+	tenderSlug?: string;
 };
 
 export default function FeedbackScoresDesigned({
@@ -20,6 +22,7 @@ export default function FeedbackScoresDesigned({
 	comments,
 	attachments = [],
 	splits = [],
+	tenderSlug,
 }: FeedbackDesignedProps) {
 	const total =
 		splits?.reduce((sum, s) => sum + (Number.isFinite(s.percentage) ? Number(s.percentage) : 0), 0) ?? 0;
@@ -27,7 +30,10 @@ export default function FeedbackScoresDesigned({
 	return (
 		<div className="content-stretch flex flex-col gap-[36px]">
 			{/* Top details block */}
-			<section className="bg-white box-border content-stretch flex flex-col gap-[28px] items-start px-[28px] py-[32px] relative w-full rounded-[8px]">
+			<section className="bg-white box-border content-stretch flex flex-col gap-[28px] items-start px-[28px] py-[24px] relative w-full rounded-[8px]">
+				<div className="w-full flex justify-end mb-2">
+					<FeedbackButton tenderSlug={tenderSlug} label="Edit feedback" />
+				</div>
 				<div className="content-stretch flex flex-col gap-[8px] items-start w-full">
 					{/* Client contact details */}
 					<div className="content-stretch flex gap-[24px] items-start w-full">
