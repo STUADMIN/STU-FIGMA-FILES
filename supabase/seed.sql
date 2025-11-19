@@ -70,7 +70,11 @@ insert into public.people(first_name, last_name, organization_id, email) values
   ('Timmy','Trowel',         (select id from orgs where name='Trowel & Error Ltd'),             'timmy.trowel@te.com'),
   ('Ben','Beamish',          (select id from orgs where name='Beamish Builders'),               null),
   ('Terry','Tileman',        (select id from orgs where name='Tile Expectations'),              null),
-  ('Lisa','Terry',           (select id from orgs where name='STU'),                            'lisa.terry@stu.com')
+  ('Lisa','Terry',           (select id from orgs where name='STU'),                            'lisa.terry@stu.com'),
+  -- Additional demo users (STU org)
+  ('Priya','Shah',           (select id from orgs where name='STU'),                            'priya.shah@stu.com'),
+  ('Owen','Carter',          (select id from orgs where name='STU'),                            'owen.carter@stu.com'),
+  ('Alex','Mason',           (select id from orgs where name='STU'),                            'alex.mason@stu.com')
 on conflict (email) do nothing;
 
 -- Auth users (admin function; requires SQL Editor or service role)
@@ -93,6 +97,32 @@ begin
     perform auth.admin.create_user(
       email := 'timmy.trowel@te.com',
       password := 'qwertyuop1!',
+      email_confirm := true
+    );
+  end if;
+end $$;
+
+-- Additional demo accounts (STU)
+do $$
+begin
+  if not exists (select 1 from auth.users where email = 'priya.shah@stu.com') then
+    perform auth.admin.create_user(
+      email := 'priya.shah@stu.com',
+      password := 'Qwertyuiop1!',
+      email_confirm := true
+    );
+  end if;
+  if not exists (select 1 from auth.users where email = 'owen.carter@stu.com') then
+    perform auth.admin.create_user(
+      email := 'owen.carter@stu.com',
+      password := 'Qwertyuiop1!',
+      email_confirm := true
+    );
+  end if;
+  if not exists (select 1 from auth.users where email = 'alex.mason@stu.com') then
+    perform auth.admin.create_user(
+      email := 'alex.mason@stu.com',
+      password := 'Qwertyuiop1!',
       email_confirm := true
     );
   end if;
