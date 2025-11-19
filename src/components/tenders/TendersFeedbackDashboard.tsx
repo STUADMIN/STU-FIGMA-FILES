@@ -5,7 +5,7 @@ import FeedbackButton from "./FeedbackButton";
 
 export type FeedbackSplit = { id: string; description: string; percentage: number };
 
-export type FeedbackDesignedProps = {
+export type TendersFeedbackDashboardProps = {
 	fullName?: string;
 	phoneNumber?: string;
 	emailAddress?: string;
@@ -15,7 +15,7 @@ export type FeedbackDesignedProps = {
 	tenderSlug?: string;
 };
 
-export default function FeedbackScoresDesigned({
+export default function TendersFeedbackDashboard({
 	fullName,
 	phoneNumber,
 	emailAddress,
@@ -23,7 +23,7 @@ export default function FeedbackScoresDesigned({
 	attachments = [],
 	splits = [],
 	tenderSlug,
-}: FeedbackDesignedProps) {
+}: TendersFeedbackDashboardProps) {
 	const total =
 		splits?.reduce((sum, s) => sum + (Number.isFinite(s.percentage) ? Number(s.percentage) : 0), 0) ?? 0;
 

@@ -9,11 +9,10 @@ import SubmittedDocumentsTab, {
   SubmittedDocument,
 } from "@/components/tenders/SubmittedDocumentsTab";
 import { TenderTabs } from "@/components/tenders/TenderTabs";
-import { FeedbackScoresTab } from "@/components/tenders/FeedbackScoresTab";
 import { getSupabaseServerClient } from "@/lib/supabaseServer";
 import FeedbackButton from "@/components/tenders/FeedbackButton";
 import Link from "next/link";
-import FeedbackScoresDesigned from "@/components/tenders/FeedbackScoresDesigned";
+import type { TendersFeedbackDashboardProps } from "@/components/tenders/TendersFeedbackDashboard";
 import TenderHeaderDesigned from "@/components/tenders/TenderHeaderDesigned";
 
 export const runtime = "nodejs";
@@ -520,7 +519,7 @@ export default async function TenderDetailPage({
   );
 
   // Decode feedback payload from query param to render as a tab (preview-in-place)
-  const feedbackContent = (() => {
+  const feedbackData: TendersFeedbackDashboardProps | null = (() => {
     const raw =
       typeof searchParams?.feedback === "string"
         ? searchParams?.feedback
@@ -530,35 +529,24 @@ export default async function TenderDetailPage({
     if (!raw) return null;
     try {
       const json = Buffer.from(raw, "base64").toString("utf8");
-      const payload = JSON.parse(json) as {
-        fullName?: string;
-        phoneNumber?: string;
-        emailAddress?: string;
-        comments?: string;
-        splits?: { id: string; description: string; percentage: number }[];
-        attachments?: string[];
+      const payload = JSON.parse(json) as TendersFeedbackDashboardProps;
+      return {
+        ...payload,
+        attachments: Array.isArray(payload.attachments) ? payload.attachments : [],
+        splits: Array.isArray(payload.splits) ? payload.splits : [],
+        tenderSlug: tenderIdentifier,
       };
-      return (
-        <FeedbackScoresDesigned
-          fullName={payload.fullName}
-          phoneNumber={payload.phoneNumber}
-          emailAddress={payload.emailAddress}
-          comments={payload.comments}
-          attachments={Array.isArray(payload.attachments) ? payload.attachments : []}
-          splits={Array.isArray(payload.splits) ? payload.splits : []}
-          tenderSlug={tenderIdentifier}
-        />
-      );
     } catch {
       return null;
     }
   })();
 
+  const feedbackProps: TendersFeedbackDashboardProps = feedbackData ?? { tenderSlug: tenderIdentifier };
+
   return (
     <AppShell userDisplayName={fullName} fullWidth>
-      {/* Page background and 1200px canvas to match the design */}
-      <div className="flex w-full justify-center bg-[#F1F0EE]">
-        <div className="flex w-full flex-col min-h-[calc(100vh-5rem)]">
+      <main className="min-h-dvh bg-slate-50">
+        <div className="mx-auto flex w-full max-w-6xl flex-col px-8 py-8">
           <TenderHeaderDesigned
             title={activeTender.title || "Untitled tender"}
             status={displayStatus}
@@ -572,28 +560,17 @@ export default async function TenderDetailPage({
             tenderSlug={tenderIdentifier}
           />
 
-          {/* Main card with tabs, styled like the HorizontalTabs + card in the design */}
-          <section className="flex w-full justify-center px-4 py-7">
-            <div className="w-full max-w-[1200px]">
-              <div className="rounded-[8px] border border-[#D0D0D0] bg-white shadow-sm">
-                <div className="px-[28px] pt-[16px] pb-0 border-b border-[#D0D0D0]">
-                  {/* TenderTabs will render its own tab labels; this wrapper just gives the bar a home */}
-                </div>
-                <div className="px-[28px] py-[32px]">
-                  <TenderTabs
-                    details={detailsContent}
-                    documents={documentsContent}
-                    /* Always render the Feedback tab; show designed empty-state if no payload yet */
-                    feedback={feedbackContent ?? <FeedbackScoresDesigned tenderSlug={tenderIdentifier} />}
-                    activity={activityContent}
-                    initialTab={feedbackContent ? "feedback" : "details"}
-                  />
-                </div>
-              </div>
-            </div>
+          <section className="mt-6">
+            <TenderTabs
+              details={detailsContent}
+              documents={documentsContent}
+              feedback={feedbackProps}
+              activity={activityContent}
+              initialTab={feedbackData ? "feedback" : "details"}
+            />
           </section>
         </div>
-      </div>
+      </main>
     </AppShell>
   );
 }

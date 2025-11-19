@@ -1,75 +1,52 @@
 'use client';
 
-import React, { useMemo, useState } from "react";
+import { type ReactNode, useState } from "react";
+import TendersFeedbackDashboard, { type TendersFeedbackDashboardProps } from "./TendersFeedbackDashboard";
 
-type TenderTabKey = "details" | "submitted" | "feedback" | "activity";
+type TenderTabKey = "details" | "documents" | "feedback" | "activity";
 
 type TenderTabsProps = {
-  details: React.ReactNode;
-  documents: React.ReactNode;
-  feedback?: React.ReactNode;
-  activity: React.ReactNode;
+  details: ReactNode;
+  documents: ReactNode;
+  feedback?: TendersFeedbackDashboardProps;
+  activity: ReactNode;
   initialTab?: TenderTabKey;
 };
 
-function buildTabs(hasFeedback: boolean) {
-  const base: { key: TenderTabKey; label: string }[] = [
-    { key: "details", label: "Tender details" },
-    { key: "submitted", label: "Submitted documents" },
-  ];
-  if (hasFeedback) {
-    base.push({ key: "feedback", label: "Feedback scores" });
-  }
-  base.push({ key: "activity", label: "Activity log" });
-  return base;
-}
+const TABS: { key: TenderTabKey; label: string }[] = [
+  { key: "details", label: "Tender details" },
+  { key: "documents", label: "Submitted documents" },
+  { key: "feedback", label: "Feedback scores" },
+  { key: "activity", label: "Activity log" },
+];
 
 export function TenderTabs({ details, documents, feedback, activity, initialTab = "details" }: TenderTabsProps) {
   const [activeTab, setActiveTab] = useState<TenderTabKey>(initialTab);
-  const tabs = useMemo(() => buildTabs(Boolean(feedback)), [feedback]);
 
-  const currentContent = useMemo(() => {
-    switch (activeTab) {
-      case "submitted":
-        return documents;
-      case "feedback":
-        return feedback;
-      case "activity":
-        return activity;
-      case "details":
-      default:
-        return details;
-    }
-  }, [activeTab, activity, details, documents, feedback]);
+  const tabClasses = (tab: TenderTabKey) =>
+    [
+      "px-4 py-3 text-sm font-medium border-b-2 cursor-pointer transition-colors",
+      activeTab === tab
+        ? "border-slate-900 text-slate-900 bg-white"
+        : "border-transparent text-slate-600 bg-slate-50 hover:bg-slate-100",
+    ].join(" ");
 
   return (
-    <div className="rounded-b-[16px] border border-[#D0D0D0] bg-white shadow-sm">
-      <nav className="flex items-end gap-2 border-b border-[#D0D0D0] bg-[#ECECEC] pl-6 pr-8 pt-4">
-        {tabs.map((tab) => {
-          const isActive = tab.key === activeTab;
-          return (
-            <button
-              key={tab.key}
-              type="button"
-              onClick={() => setActiveTab(tab.key)}
-              className={`rounded-t-[12px] px-5 py-3 text-center transition ${
-                isActive ? "bg-white" : "bg-transparent hover:bg-white/40"
-              }`}
-              style={{
-                fontFamily: "Poppins, sans-serif",
-                fontSize: "16px",
-                fontWeight: 700,
-                lineHeight: "24px",
-                color: "#000000",
-              }}
-              aria-pressed={isActive}
-            >
-              {tab.label}
-            </button>
-          );
-        })}
-      </nav>
-      <div className="bg-white px-6 py-8">{currentContent}</div>
+    <div className="rounded-md border border-slate-200 bg-white shadow-sm">
+      <div className="flex border-b border-slate-200 bg-slate-50 rounded-t-md">
+        {TABS.map((tab) => (
+          <button key={tab.key} className={tabClasses(tab.key)} onClick={() => setActiveTab(tab.key)} type="button">
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
+      <div className="p-6">
+        {activeTab === "details" && details}
+        {activeTab === "documents" && documents}
+        {activeTab === "feedback" && <TendersFeedbackDashboard {...(feedback ?? {})} />}
+        {activeTab === "activity" && activity}
+      </div>
     </div>
   );
 }
