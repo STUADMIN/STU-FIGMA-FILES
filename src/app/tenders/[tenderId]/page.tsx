@@ -7,6 +7,7 @@ import type { ActivityEvent } from "@/components/tenders/ActivityLogSection";
 import SubmittedDocumentsTab, { SubmittedDocument } from "@/components/tenders/SubmittedDocumentsTab";
 import { TenderTabs } from "@/components/tenders/TenderTabs";
 import { getSupabaseServerClient } from "@/lib/supabaseServer";
+import FeedbackButton from "@/components/tenders/FeedbackButton";
 import Link from "next/link";
 
 export const runtime = "nodejs";
@@ -548,7 +549,7 @@ function TopBanner({
   dueDate: string;
   dueMeta: string;
 }) {
-  return (
+      return (
     <div className="w-full border-b border-slate-200 bg-white">
       <div className="mx-auto w-full max-w-6xl px-6 py-5">
         <Link
@@ -565,19 +566,22 @@ function TopBanner({
           Back to Tenders
         </Link>
 
-        <div className="flex flex-wrap items-center gap-3">
-          <h1
-            className="font-bold text-black"
-            style={{ fontFamily: "Montserrat, sans-serif", fontSize: "40px", lineHeight: "48px" }}
-          >
-            {title}
-          </h1>
-          <span
-            className="flex items-start px-4 py-1 text-sm font-semibold"
-            style={{ backgroundColor: "#EDE9FE", color: "#581C87" }}
-          >
-            {status}
-          </span>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center gap-3">
+            <h1
+              className="font-bold text-black"
+              style={{ fontFamily: "Montserrat, sans-serif", fontSize: "40px", lineHeight: "48px" }}
+            >
+              {title}
+            </h1>
+            <span
+              className="flex items-start px-4 py-1 text-sm font-semibold"
+              style={{ backgroundColor: "#EDE9FE", color: "#581C87" }}
+            >
+              {status}
+            </span>
+          </div>
+          <FeedbackButton />
         </div>
         <div
           className="mt-2 self-stretch text-[#61828D]"
@@ -593,13 +597,13 @@ function TopBanner({
           <MetaItem label="Assigned to" value={assignedTo} />
           <MetaItem label="Submission due date" value={dueDate} helper={dueMeta} />
         </div>
-      </div>
-    </div>
-  );
-}
+          </div>
+        </div>
+      );
+    }
 
 function MetaItem({ label, value, helper }: { label: string; value: string; helper?: string }) {
-  return (
+    return (
     <div className="flex flex-col self-stretch">
       <span
         className="text-[#61828D]"
@@ -616,8 +620,8 @@ function MetaItem({ label, value, helper }: { label: string; value: string; help
       {helper && helper !== "Date not set" ? (
         <div className="text-xs font-medium text-emerald-600">{helper}</div>
       ) : null}
-    </div>
-  );
+      </div>
+    );
 }
 
 function TenderMeta({
@@ -783,11 +787,11 @@ function FileItem({ file, index }: { file: AttachmentMeta; index: number }) {
 
           <StuIcon name={ICONS.external} size={16} />
 
-        </button>
+            </button>
 
-      </div>
+          </div>
 
-    </div>
+              </div>
 
   );
 
@@ -850,7 +854,7 @@ function DocumentIcon({ file, index }: { file: AttachmentMeta; index: number }) 
             </linearGradient>
           </defs>
         </svg>
-      </div>
+                </div>
     );
   }
 
@@ -891,7 +895,7 @@ function DocumentIcon({ file, index }: { file: AttachmentMeta; index: number }) 
             </linearGradient>
           </defs>
         </svg>
-      </div>
+                </div>
     );
   }
 
@@ -929,14 +933,14 @@ function DocumentIcon({ file, index }: { file: AttachmentMeta; index: number }) 
             </linearGradient>
           </defs>
         </svg>
-      </div>
+                </div>
     );
   }
 
   return (
     <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-md bg-[#EEF4FF]">
       <StuIcon name={ICONS.paperclip} size={16} className="text-[#5D5D5C]" />
-    </div>
+                </div>
   );
 }
 
@@ -988,7 +992,7 @@ function SectionCard({ title, children, action }: { title: string; children: Rea
 
         {actionNode ? actionNode : null}
 
-      </div>
+                </div>
 
       {children}
 
@@ -999,13 +1003,13 @@ function SectionCard({ title, children, action }: { title: string; children: Rea
 }
 
 function EditButton({ label = "Edit" }: { label?: string }) {
-  return (
-    <button
+                  return (
+                    <button
       className="flex w-[79px] items-center justify-center gap-2 rounded-[6px] border border-[#999998] bg-white px-4 py-2 text-sm font-medium text-[#0F172A] transition hover:bg-[#F4F2EC]"
     >
       {label}
-    </button>
-  );
+                    </button>
+                  );
 }
 
 function Label({ title, value, grow }: { title: string; value?: React.ReactNode; grow?: boolean }) {
@@ -1014,7 +1018,7 @@ function Label({ title, value, grow }: { title: string; value?: React.ReactNode;
       <div className="space-y-2 border-b border-[#E7E5DF] py-4 last:border-0">
         <div className="text-sm font-semibold text-[#2F6F7C]">{title}</div>
         <div className="text-sm text-[#1F2933]">{value ?? "—"}</div>
-      </div>
+            </div>
     );
   }
 
@@ -1022,7 +1026,7 @@ function Label({ title, value, grow }: { title: string; value?: React.ReactNode;
     <div className="grid items-center gap-3 border-b border-[#E7E5DF] py-4 last:border-0 md:grid-cols-[220px_minmax(0,1fr)]">
       <div className="text-sm font-semibold text-[#2F6F7C]">{title}</div>
       <div className="text-sm text-[#1F2933]">{value ?? "—"}</div>
-    </div>
+      </div>
   );
 }
 
