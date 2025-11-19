@@ -1,32 +1,19 @@
 {
-  "name": "stu-web",
-  "version": "0.1.0",
+  "name": "tenders-feedback-dashboard",
+  "version": "1.0.0",
   "private": true,
+  "description": "Standalone React component used to mirror the Tenders Feedback Dashboard design in Figma.",
+  "license": "MIT",
+  "type": "module",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@supabase/ssr": "^0.7.0",
-    "@supabase/supabase-js": "^2.80.0",
-    "clsx": "^2.1.1",
-    "js-cookie": "^3.0.5",
-    "next": "16.0.1",
-    "qrcode": "^1.5.4",
-    "react": "19.2.0",
-    "react-dom": "19.2.0",
-    "sonner": "^2.0.7"
+    "react": "^18.3.1"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20.19.24",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "16.0.1",
-    "tailwindcss": "^4",
-    "typescript": "^5.9.3"
+    "@types/react": "^18.3.3",
+    "typescript": "^5.4.5"
   }
 }
+

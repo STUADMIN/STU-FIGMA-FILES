@@ -1,7 +1,4 @@
-"use client";
-
 import React from "react";
-import FeedbackButton from "./FeedbackButton";
 
 export type FeedbackSplit = { id: string; description: string; percentage: number };
 
@@ -12,7 +9,8 @@ export type TendersFeedbackDashboardProps = {
 	comments?: string;
 	attachments?: string[];
 	splits?: FeedbackSplit[];
-	tenderSlug?: string;
+	editLabel?: string;
+	onEditFeedback?: () => void;
 };
 
 export default function TendersFeedbackDashboard({
@@ -22,7 +20,8 @@ export default function TendersFeedbackDashboard({
 	comments,
 	attachments = [],
 	splits = [],
-	tenderSlug,
+	editLabel = "Edit feedback",
+	onEditFeedback,
 }: TendersFeedbackDashboardProps) {
 	const total =
 		splits?.reduce((sum, s) => sum + (Number.isFinite(s.percentage) ? Number(s.percentage) : 0), 0) ?? 0;
@@ -32,7 +31,14 @@ export default function TendersFeedbackDashboard({
 			{/* Top details block */}
 			<section className="bg-white box-border content-stretch flex flex-col gap-[28px] items-start px-[28px] py-[24px] relative w-full rounded-[8px]">
 				<div className="w-full flex justify-end mb-2">
-					<FeedbackButton tenderSlug={tenderSlug} label="Edit feedback" />
+					<button
+						type="button"
+						onClick={onEditFeedback}
+						disabled={!onEditFeedback}
+						className="inline-flex h-[44px] px-4 items-center justify-center gap-1 rounded border border-[#D0D0D0] text-sm font-medium text-gray-800 disabled:opacity-60"
+					>
+						{editLabel}
+					</button>
 				</div>
 				<div className="content-stretch flex flex-col gap-[8px] items-start w-full">
 					{/* Client contact details */}

@@ -1,74 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Tenders Feedback Dashboard
 
-## Getting Started
+This repository contains a single React component – `TendersFeedbackDashboard` – that mirrors the approved Figma design for the tender feedback view. It is intentionally minimal so Figma Code Connect (Dev Mode) can map the design directly to production-ready JSX without pulling in the entire STU platform.
 
-First, run the development server:
+### Project structure
+
+```
+src/
+  components/
+    tenders/
+      TendersFeedbackDashboard.tsx
+```
+
+### Usage
+
+Install dependencies and run a quick type-check:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-
-## Auth setup (Supabase + GitHub)
-
-1) Create a Supabase project at https://supabase.com
-2) In Supabase, go to Authentication → Providers → GitHub and enable it.
-   - Set Authorization callback URL to: `http://localhost:3000/auth/callback`
-   - Copy Client ID and Client Secret from your GitHub OAuth App into Supabase
-3) Copy `.env.local.example` to `.env.local` and fill:
-
-```
-NEXT_PUBLIC_SUPABASE_URL=your-project-url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-```
-
-4) Install deps and run the app:
-
-```
 npm install
-npm run dev
+npm run typecheck
 ```
 
-5) Visit `http://localhost:3000/login` and click "Continue with GitHub".
+Import the component into any React/Next.js project:
 
-- Middleware automatically keeps your session fresh.
-- `/protected` requires an authenticated user and will redirect to `/login` if not signed in.
+```tsx
+import TendersFeedbackDashboard from "./src/components/tenders/TendersFeedbackDashboard";
 
-## Seeding Supabase (organizations + people + Lisa auth user)
+export default function Example() {
+  return (
+    <TendersFeedbackDashboard
+      fullName="Lisa Terry"
+      phoneNumber="+44 7700 900123"
+      emailAddress="lisa.terry@stu.com"
+      comments="Overall a strong submission. Please expand on sustainability."
+      attachments={["pricing-schedule.pdf", "method-statement.docx"]}
+      splits={[
+        { id: "quality", description: "Quality & Methodology", percentage: 35 },
+        { id: "price", description: "Commercial / Price", percentage: 40 },
+        { id: "social", description: "Social value", percentage: 25 },
+      ]}
+      onEditFeedback={() => console.log("Open modal…")}
+    />
+  );
+}
+```
 
-1) Open your project: https://supabase.com/dashboard/project/gnkxmrkqatofrrvkprxe
-2) Go to SQL → New query.
-3) Copy the contents of `supabase/seed.sql` from this repo and paste into the editor.
-4) Click Run. It will:
-   - Create `public.organizations` and `public.people`
-   - Insert your provided organizations and people
-   - Create the auth user `lisa.terry@stu.com` with password `Qwertyuiop1!` (email confirmed)
-5) Optional: To add Timmy as an auth user, uncomment the block at the end and set the email you want, then Run again.
+### Figma Code Connect
 
-You can verify rows under Table Editor → `organizations` / `people`, and check Lisa under Authentication → Users.
+1. Push updates to `main` on `STUADMIN/STU-FIGMA-FILES`.
+2. In Figma Dev Mode choose **Library → Connect components to code**.
+3. Point the GitHub connection at this repository and map the `TendersFeedbackDashboard.tsx` file to the corresponding design component.
+
+That’s it – designers now see the exact production code snippet whenever they inspect the dashboard component in Figma.
+
+
