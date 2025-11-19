@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import TendersPageSvg from "@/components/design/TendersPageSvg";
 
 export default function FeedbackButton() {
 	const [open, setOpen] = useState(false);
@@ -24,11 +25,11 @@ export default function FeedbackButton() {
 					onClick={() => setOpen(false)}
 				>
 					<div
-						className="w-full max-w-md rounded-md bg-white p-6 shadow-xl"
+						className="w-full max-w-5xl md:max-w-6xl rounded-lg bg-white shadow-xl"
 						onClick={(e) => e.stopPropagation()}
 					>
-						<div className="mb-4 flex items-center justify-between">
-							<h2 className="text-lg font-semibold">Feedback Scores</h2>
+						<div className="flex items-center justify-between border-b border-slate-200 px-6 py-4">
+							<h2 className="text-lg font-semibold text-gray-900">Feedback Scores</h2>
 							<button
 								type="button"
 								className="inline-flex h-8 items-center justify-center rounded px-3 text-sm text-gray-600 hover:text-gray-900"
@@ -38,12 +39,18 @@ export default function FeedbackButton() {
 							</button>
 						</div>
 
-						<div className="space-y-3 text-sm text-gray-700">
-							<p>Placeholder for feedback scoring UI.</p>
-							<p className="text-gray-500">You can add fields, sliders, and save actions here.</p>
+						<div className="max-h-[75vh] overflow-auto px-6 py-5">
+							<div className="space-y-4">
+								<p className="text-sm text-gray-700">
+									Reference view for scoring and feedback. This SVG is provided for visual guidance.
+								</p>
+								<div className="rounded-md border border-slate-200 bg-[#F1F0EE]">
+									<TendersPageSvg className="w-full h-auto" alt="Feedback reference visual" />
+								</div>
+							</div>
 						</div>
 
-						<div className="mt-6 flex justify-end gap-2">
+						<div className="flex justify-end gap-2 border-t border-slate-200 px-6 py-4">
 							<button
 								type="button"
 								className="inline-flex items-center justify-center rounded border border-gray-300 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
