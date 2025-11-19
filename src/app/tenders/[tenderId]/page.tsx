@@ -14,6 +14,7 @@ import { getSupabaseServerClient } from "@/lib/supabaseServer";
 import FeedbackButton from "@/components/tenders/FeedbackButton";
 import Link from "next/link";
 import FeedbackScoresDesigned from "@/components/tenders/FeedbackScoresDesigned";
+import TenderHeaderDesigned from "@/components/tenders/TenderHeaderDesigned";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -558,11 +559,9 @@ export default async function TenderDetailPage({
       {/* Page background and 1200px canvas to match the design */}
       <div className="flex w-full justify-center bg-[#F1F0EE]">
         <div className="flex w-full flex-col min-h-[calc(100vh-5rem)]">
-          {/* Banner / section header (aligned to Figma layout) */}
-          <TopBanner
+          <TenderHeaderDesigned
             title={activeTender.title || "Untitled tender"}
             status={displayStatus}
-            statusVariant={statusVariant}
             client={clientLabel}
             tenderId={activeTender.tender_id || "Not set"}
             reference={activeTender.reference_number || "—"}
