@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-export default function FeedbackButton(): JSX.Element {
+export default function FeedbackButton() {
 	const [open, setOpen] = useState(false);
 
 	return (
