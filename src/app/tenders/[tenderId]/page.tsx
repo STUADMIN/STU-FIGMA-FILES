@@ -1,4 +1,5 @@
 import AppShell from "@/components/layout/AppShell";
+import type { Metadata } from "next";
 import { StuIcon, type StuIconName } from "@/components/icons/StuIcon";
 import EditableTextSection from "@/components/tenders/EditableTextSection";
 import { DocumentDropzone } from "@/components/tenders/DocumentDropzone";
@@ -16,6 +17,9 @@ import FeedbackScoresDesigned from "@/components/tenders/FeedbackScoresDesigned"
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+export const metadata: Metadata = {
+  title: "Tender details",
+};
 
 type AttachmentMeta = {
   name: string;

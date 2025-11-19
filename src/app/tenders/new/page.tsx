@@ -1,10 +1,14 @@
 import React from "react";
+import type { Metadata } from "next";
 import AppShell from "../../../components/layout/AppShell";
 import { getSupabaseServerClient } from "../../../lib/supabaseServer";
 import NewTenderForm from "./NewTenderForm";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+export const metadata: Metadata = {
+  title: "New tender",
+};
 
 type PersonRow = {
   id: string;

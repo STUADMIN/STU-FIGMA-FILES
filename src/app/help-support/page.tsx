@@ -1,10 +1,14 @@
 import React from "react";
+import type { Metadata } from "next";
 import AppShell from "../../components/layout/AppShell";
 import { getSupabaseServerClient } from "../../lib/supabaseServer";
 import Link from "next/link";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+export const metadata: Metadata = {
+  title: "Help & support",
+};
 
 type PersonRecord = {
   display_name: string | null;

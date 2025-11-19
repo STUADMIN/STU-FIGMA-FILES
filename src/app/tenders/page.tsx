@@ -1,4 +1,5 @@
 import AppShell from "@/components/layout/AppShell";
+import type { Metadata } from "next";
 import { getSupabaseServerClient } from "@/lib/supabaseServer";
 import Link from "next/link";
 import { StuIcon } from "@/components/icons/StuIcon";
@@ -6,6 +7,9 @@ import TendersTable, { TenderRow } from "./TendersTable";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+export const metadata: Metadata = {
+  title: "Tenders",
+};
 
 const columnWidths = {
   tenderId: 200,

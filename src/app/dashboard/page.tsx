@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import AppShell from "@/components/layout/AppShell";
 import { StuIcon } from "@/components/icons/StuIcon";
 import { getSupabaseServerClient } from "@/lib/supabaseServer";
@@ -6,6 +7,9 @@ import { WelcomeHeading } from "@/components/dashboard/WelcomeHeading";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+export const metadata: Metadata = {
+  title: "Dashboard",
+};
 
 type Metric = {
   label: string;
