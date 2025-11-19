@@ -111,7 +111,7 @@ export default function FeedbackScoresModal({ open, onClose, onComplete }: Feedb
 	return (
 		<div className="fixed inset-0 z-50 flex items-start justify-center bg-black/40" aria-modal="true" role="dialog">
 			<div className="absolute inset-0" onClick={onClose} aria-hidden="true" />
-			<div className="relative z-10 mt-6 w-full max-w-3xl rounded-2xl bg-white p-8 shadow-xl max-h-[90vh] overflow-y-auto">
+			<div className="relative z-10 mt-6 w-full max-w-3xl rounded-2xl bg-white p-8 shadow-xl max-h-[calc(100vh-3rem)] overflow-y-auto">
 				<div className="mb-6 flex items-start justify-between gap-4">
 					<h2 className="text-2xl font-semibold tracking-tight">Feedback scores</h2>
 					<button
@@ -156,7 +156,6 @@ export default function FeedbackScoresModal({ open, onClose, onComplete }: Feedb
 						<p className="mb-2 text-sm font-semibold text-gray-700">Comments</p>
 						<textarea
 							rows={5}
-							placeholder=""
 							value={comments}
 							onChange={(e) => setComments(e.target.value)}
 							className="w-full resize-none rounded-md border border-[#B8E1E7] bg-white px-4 py-3 text-sm placeholder:text-gray-400 focus:border-[#1c9bd8] focus:outline-none focus:ring-2 focus:ring-[#1c9bd8]/40"
@@ -205,69 +204,106 @@ export default function FeedbackScoresModal({ open, onClose, onComplete }: Feedb
 							className="w-full rounded-md border border-[#B8E1E7] bg-white px-4 py-3 text-sm text-gray-900 focus:border-[#1c9bd8] focus:outline-none focus:ring-2 focus:ring-[#1c9bd8]/40"
 						>
 							<option value="percentage">Percentage (%)</option>
-							<option value="points">Points (e.g. 1–10)</option>
+							<option value="points">Points</option>
 							<option value="other">Other</option>
 						</select>
 					</section>
 
 					<section>
 						<p className="mb-2 text-sm font-semibold text-gray-700">Evaluation weighting</p>
-						<div className="space-y-2">
-							{splits.map((split) => (
-								<div key={split.id} className="grid grid-cols-[minmax(0,1fr)_120px_32px] items-center gap-2">
+
+						<div className="space-y-3">
+							{splits.map((split, index) => (
+								<div
+									key={split.id}
+									className="flex items-center gap-3"
+								>
 									<input
 										type="text"
-										placeholder="Description"
+										placeholder="Enter a description"
 										value={split.description}
-										onChange={(e) => handleSplitChange(split.id, "description", e.target.value)}
-										className="w-full rounded-md border border-[#B8E1E7] bg-white px-3 py-2.5 text-sm placeholder:text-gray-400 focus:border-[#1c9bd8] focus:outline-none focus:ring-2 focus:ring-[#1c9bd8]/40"
+										onChange={(e) =>
+											handleSplitChange(
+												split.id,
+												"description",
+												e.target.value,
+											)
+										}
+										className="flex-1 rounded-md border border-[#B8E1E7] bg-white px-4 py-3 text-sm placeholder:text-gray-400 focus:border-[#1c9bd8] focus:outline-none focus:ring-2 focus:ring-[#1c9bd8]/40"
 									/>
-									<div className="flex items-center">
+									<div className="flex items-center gap-1">
 										<input
-											type="text"
-											inputMode="decimal"
-											pattern="[0-9]*"
-											placeholder="0"
-											value={String(split.percentage)}
-											onChange={(e) => handleSplitChange(split.id, "percentage", e.target.value)}
-											className="w-full rounded-md border border-[#B8E1E7] bg-white px-3 py-2.5 text-sm placeholder:text-gray-400 focus:border-[#1c9bd8] focus:outline-none focus:ring-2 focus:ring-[#1c9bd8]/40"
+											type="number"
+											min={0}
+											max={100}
+											value={split.percentage}
+											onChange={(e) =>
+												handleSplitChange(
+													split.id,
+													"percentage",
+													e.target.value,
+												)
+											}
+											className="w-24 rounded-md border border-[#B8E1E7] bg-white px-3 py-3 text-right text-sm focus:border-[#1c9bd8] focus:outline-none focus:ring-2 focus:ring-[#1c9bd8]/40"
 										/>
-										<span className="ml-2 text-sm text-gray-700">%</span>
+										<span className="text-sm text-gray-600">%</span>
 									</div>
-									<button
-										type="button"
-										onClick={() => handleRemoveSplit(split.id)}
-										className="inline-flex h-[36px] w-[32px] items-center justify-center rounded-md text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-										aria-label="Remove split"
-									>
-										&times;
-									</button>
+									{splits.length > 1 && (
+										<button
+											type="button"
+											onClick={() => handleRemoveSplit(split.id)}
+											className="text-xs text-gray-400 hover:text-red-500"
+										>
+											✕
+										</button>
+									)}
 								</div>
 							))}
-						</div>
 
-						<div className="mt-2 flex items-center justify-between">
-							<div className={`text-sm ${isTotalValid ? "text-emerald-600" : "text-rose-600"}`}>
-								Total: {totalPercentage}%
-								{!isTotalValid ? " (should equal 100%)" : ""}
+							<div className="flex items-center gap-3 border-t border-gray-100 pt-3 text-sm">
+								<div className="flex-1 font-medium text-gray-900">
+									Total awarded
+								</div>
+								<div
+									className={`w-24 rounded-md border px-3 py-3 text-right ${
+										isTotalValid
+											? "border-[#B8E1E7] text-gray-900"
+											: "border-red-400 text-red-600"
+									}`}
+								>
+									{totalPercentage}%
+								</div>
 							</div>
-							<button type="button" onClick={handleAddSplit} className="text-sm font-medium text-[#1890FF] hover:underline">
+
+							{!isTotalValid && (
+								<p className="text-xs text-red-600">
+									The total awarded must equal 100%.
+								</p>
+							)}
+
+							<button
+								type="button"
+								onClick={handleAddSplit}
+								className="mt-1 text-sm font-medium text-[#1c9bd8] hover:underline"
+							>
 								Add a split
 							</button>
 						</div>
 					</section>
 
-					<div className="flex items-center justify-end gap-3 border-t border-slate-200 bg-white pt-4">
+					{/* Footer buttons */}
+					<div className="mt-4 flex justify-end gap-3">
 						<button
 							type="button"
 							onClick={onClose}
-							className="rounded-md border border-slate-200 px-5 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50"
+							className="rounded-md border border-gray-300 px-5 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
 						>
 							Cancel
 						</button>
 						<button
 							type="submit"
-							className="rounded-md bg-[#1890FF] px-5 py-2.5 text-sm font-medium text-white hover:bg-[#1474CC]"
+							disabled={!isTotalValid}
+							className="rounded-md bg-[#1c9bd8] px-5 py-2.5 text-sm font-medium text-white hover:bg-[#1383b6] disabled:cursor-not-allowed disabled:bg-[#9fd2ec]"
 						>
 							Complete
 						</button>
