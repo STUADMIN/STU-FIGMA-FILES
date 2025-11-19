@@ -111,7 +111,7 @@ export default function FeedbackScoresModal({ open, onClose, onComplete }: Feedb
 	return (
 		<div className="fixed inset-0 z-50 flex items-start justify-center bg-black/40" aria-modal="true" role="dialog">
 			<div className="absolute inset-0" onClick={onClose} aria-hidden="true" />
-			<div className="relative z-10 mt-6 w-full max-w-3xl rounded-2xl bg-white p-8 shadow-xl">
+			<div className="relative z-10 mt-6 w-full max-w-3xl rounded-2xl bg-white p-8 shadow-xl max-h-[90vh] overflow-y-auto">
 				<div className="mb-6 flex items-start justify-between gap-4">
 					<h2 className="text-2xl font-semibold tracking-tight">Feedback scores</h2>
 					<button
