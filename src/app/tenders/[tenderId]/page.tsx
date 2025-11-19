@@ -583,7 +583,8 @@ export default async function TenderDetailPage({
                   <TenderTabs
                     details={detailsContent}
                     documents={documentsContent}
-                    feedback={feedbackContent ?? undefined}
+                    /* Always render the Feedback tab; show designed empty-state if no payload yet */
+                    feedback={feedbackContent ?? <FeedbackScoresDesigned />}
                     activity={activityContent}
                     initialTab={feedbackContent ? "feedback" : "details"}
                   />
