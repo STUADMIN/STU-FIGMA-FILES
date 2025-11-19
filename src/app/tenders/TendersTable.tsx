@@ -223,7 +223,7 @@ export default function TendersTable({ rows, columnWidths }: TendersTableProps) 
         </div>
 
         <div className="overflow-hidden rounded-2xl border border-[#EAECF0]">
-          <div className="flex h-9 items-center bg-[#F7F7F7] px-3 text-sm font-semibold text-[#0D2352]">
+          <div className="sticky top-0 z-10 flex h-11 items-center bg-[#F7F7F7]/95 px-3 text-sm font-semibold text-[#0D2352] backdrop-blur supports-[backdrop-filter]:bg-[#F7F7F7]/80">
             <HeaderButton
               label="Tender ID"
               sortKey="tenderId"
@@ -262,7 +262,7 @@ export default function TendersTable({ rows, columnWidths }: TendersTableProps) 
               activeKey={sortKey}
               direction={sortDirection}
               onClick={toggleSort}
-              className="flex-[2] min-w-0"
+              className="flex-[2] min-w-0 justify-end text-right"
             />
             <HeaderButton
               label="Response date"
@@ -270,7 +270,7 @@ export default function TendersTable({ rows, columnWidths }: TendersTableProps) 
               activeKey={sortKey}
               direction={sortDirection}
               onClick={toggleSort}
-              className="hidden min-w-0 lg:flex lg:flex-[2]"
+              className="hidden min-w-0 justify-end text-right lg:flex lg:flex-[2]"
             />
             <div className="flex-[1] min-w-0" />
           </div>
@@ -297,15 +297,16 @@ export default function TendersTable({ rows, columnWidths }: TendersTableProps) 
                 <Link
                   href={`/tenders/${encodeURIComponent(row.tenderId)}`}
                   key={row.id}
-                  className="group flex items-center border-t border-[#EAECF0] bg-white px-3 transition hover:bg-[#F7F9FF]"
-                  style={{ height: 52 }}
+                  className="group flex h-12 items-center border-t border-[#EAECF0] bg-white px-3 text-sm transition hover:bg-[#F7F9FF] md:h-[52px]"
                 >
-                  <div className="flex-[2] min-w-0 text-[#0D2352]">
+                  <div className="flex-[2] min-w-0 truncate font-mono text-[13px] tracking-tight text-[#0D2352]">
                     {row.tenderId}
                   </div>
-                  <div className="flex flex-[4] min-w-0 flex-col justify-center gap-1 sm:flex-[5]">
-                    <span className="truncate font-semibold text-[#0D2352] group-hover:text-[#0F3FB4]">{row.title}</span>
-                    <span className="truncate text-xs text-[#5D5D5C]">{row.ref}</span>
+                  <div className="flex flex-[4] min-w-0 flex-col justify-center gap-0.5 sm:flex-[5]">
+                    <span className="truncate font-semibold text-[#0D2352] group-hover:text-[#0F3FB4]">
+                      {row.title}
+                    </span>
+                    <span className="truncate text-xs leading-4 text-[#5D5D5C]">{row.ref}</span>
                   </div>
                   <div className="flex-[2] min-w-0">
                     <span className={`inline-block px-3 py-1 text-xs font-semibold ${getStatusClass(row.status)}`}>
@@ -318,11 +319,13 @@ export default function TendersTable({ rows, columnWidths }: TendersTableProps) 
                     </span>
                     <span className="truncate text-[#0D2352]">{row.assignee}</span>
                   </div>
-                  <div className="flex flex-[2] min-w-0 flex-col justify-center gap-1">
-                    <span className="text-[#0D2352]">{row.due}</span>
-                    {row.dueMeta ? <span className="text-xs text-[#0AD6A1]">{row.dueMeta}</span> : null}
+                  <div className="flex flex-[2] min-w-0 flex-col items-end justify-center gap-0.5 text-right">
+                    <span className="whitespace-nowrap text-[#0D2352]">{row.due}</span>
+                    {row.dueMeta ? (
+                      <span className="whitespace-nowrap text-xs text-[#0AD6A1]">{row.dueMeta}</span>
+                    ) : null}
                   </div>
-                  <div className="hidden min-w-0 text-[#0D2352] lg:flex lg:flex-[2]">
+                  <div className="hidden min-w-0 justify-end whitespace-nowrap text-right text-[#0D2352] lg:flex lg:flex-[2]">
                     {row.response}
                   </div>
                   <div className="flex flex-[1] justify-end pl-2">
