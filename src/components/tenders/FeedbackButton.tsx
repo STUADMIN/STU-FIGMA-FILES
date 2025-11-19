@@ -15,8 +15,8 @@ export default function FeedbackButton({ tenderSlug }: { tenderSlug?: string }) 
 		};
 		const json = JSON.stringify(serializable);
 		const encoded = typeof window !== "undefined" ? window.btoa(unescape(encodeURIComponent(json))) : Buffer.from(json, "utf-8").toString("base64");
-		const basePath = tenderSlug ? `/tenders/${encodeURIComponent(tenderSlug)}/feedback/preview` : `/tenders/feedback/preview`;
-		router.push(`${basePath}?data=${encoded}`);
+		const basePath = tenderSlug ? `/tenders/${encodeURIComponent(tenderSlug)}` : `/tenders`;
+		router.push(`${basePath}?feedback=${encoded}`);
 		setOpen(false);
 	}
 

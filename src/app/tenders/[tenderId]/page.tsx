@@ -232,8 +232,10 @@ const FALLBACK_TENDER: TenderRow = {
 
 export default async function TenderDetailPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ tenderId: string }> | { tenderId: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
 }) {
   const supabase = await getSupabaseServerClient();
 
@@ -487,9 +489,93 @@ export default async function TenderDetailPage({
     />
   );
 
-  const feedbackContent = (
-    <FeedbackScoresTab feedback={null} />
-  );
+  // Decode feedback payload from query param to render as a tab (preview-in-place)
+  const feedbackContent = (() => {
+    const raw = typeof searchParams?.feedback === "string" ? searchParams?.feedback : Array.isArray(searchParams?.feedback) ? searchParams?.feedback[0] : undefined;
+    if (!raw) return null;
+    try {
+      const json = Buffer.from(raw, "base64").toString("utf8");
+      const payload = JSON.parse(json) as {
+        fullName?: string;
+        phoneNumber?: string;
+        emailAddress?: string;
+        comments?: string;
+        splits?: { id: string; description: string; percentage: number }[];
+        attachments?: string[];
+      };
+      const splits = Array.isArray(payload.splits) ? payload.splits : [];
+      const attachments = Array.isArray(payload.attachments) ? payload.attachments : [];
+
+      return (
+        <section className="space-y-6 text-sm text-slate-700">
+          <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+            <dl className="grid gap-y-4 text-xs sm:grid-cols-[180px,1fr]">
+              <div className="sm:contents">
+                <dt className="font-semibold text-slate-500">Client Contact Details</dt>
+                <dd className="sm:col-start-2">
+                  <div className="space-y-0.5 text-slate-800">
+                    <div className="font-medium">{payload.fullName || "—"}</div>
+                    {payload.phoneNumber ? <div>{payload.phoneNumber}</div> : null}
+                    {payload.emailAddress ? <div className="text-slate-700">{payload.emailAddress}</div> : null}
+                  </div>
+                </dd>
+              </div>
+              <div className="sm:contents">
+                <dt className="font-semibold text-slate-500">Comments</dt>
+                <dd className="sm:col-start-2">
+                  <p className="max-w-3xl leading-relaxed text-slate-700">{payload.comments || "No comments were provided."}</p>
+                </dd>
+              </div>
+              <div className="sm:contents">
+                <dt className="font-semibold text-slate-500">Supplied documents</dt>
+                <dd className="sm:col-start-2">
+                  {attachments.length ? (
+                    <ul className="space-y-2">
+                      {attachments.map((name, idx) => (
+                        <li key={`${idx}-${name}`} className="flex items-center justify-between gap-3 rounded-md border border-slate-200 bg-white px-3 py-2">
+                          <span className="truncate text-xs font-medium text-slate-800">{name}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p>No documents were uploaded with this feedback.</p>
+                  )}
+                </dd>
+              </div>
+            </dl>
+          </div>
+
+          <div className="overflow-x-auto rounded-lg border border-slate-200">
+            <table className="min-w-full border-collapse text-xs">
+              <thead className="bg-slate-50 text-left font-semibold text-slate-600">
+                <tr>
+                  <th className="px-4 py-3">Evaluation</th>
+                  <th className="px-4 py-3">Percentage</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-200">
+                {splits.map((row) => (
+                  <tr key={row.id}>
+                    <td className="px-4 py-3">{row.description || "—"}</td>
+                    <td className="px-4 py-3">{typeof row.percentage === "number" ? `${row.percentage}%` : "0%"}</td>
+                  </tr>
+                ))}
+                {!splits.length ? (
+                  <tr>
+                    <td className="px-4 py-3" colSpan={2}>
+                      No evaluation scores captured.
+                    </td>
+                  </tr>
+                ) : null}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      );
+    } catch {
+      return null;
+    }
+  })();
 
   return (
     <AppShell userDisplayName={fullName} fullWidth>
@@ -515,7 +601,13 @@ export default async function TenderDetailPage({
           </div>
 
           <main className="mx-auto my-6 w-full max-w-6xl px-6">
-            <TenderTabs details={detailsContent} documents={documentsContent} feedback={feedbackContent} activity={activityContent} />
+            <TenderTabs
+              details={detailsContent}
+              documents={documentsContent}
+              feedback={feedbackContent ?? undefined}
+              activity={activityContent}
+              initialTab={feedbackContent ? "feedback" : "details"}
+            />
           </main>
         </div>
       </div>

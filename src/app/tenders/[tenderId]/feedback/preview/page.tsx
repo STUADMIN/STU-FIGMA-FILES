@@ -57,6 +57,24 @@ export default function FeedbackPreviewPage({
 	const feedback = decodeBase64Json(raw);
 	const hasData = !!feedback;
 
+	// If we have data, redirect to the tender page with it as a query to show the Feedback tab
+	if (hasData && raw) {
+		// Use a client-side redirect fallback (no next/navigation in this file)
+		if (typeof window !== "undefined") {
+			window.location.replace(`/tenders/${params.tenderId}?feedback=${encodeURIComponent(raw)}`);
+		}
+		// Server render a minimal message (briefly) while client replaces location
+		return (
+			<main className="min-h-dvh bg-[#f5f5f5]">
+				<div className="mx-auto max-w-4xl px-4 py-12">
+					<div className="rounded-2xl bg-white p-8 shadow-sm text-sm text-slate-700">
+						Redirecting to feedback tab...
+					</div>
+				</div>
+			</main>
+		);
+	}
+
 	if (!hasData || !feedback) {
 		return (
 			<main className="min-h-dvh bg-[#f5f5f5]">
